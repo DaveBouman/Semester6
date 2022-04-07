@@ -23,7 +23,7 @@ DataSource
     .then(() => {
         Logger.info("Data Source has been initialized!")
     })
-    .catch((err) => {
+    .catch((err: Error) => {
         Logger.error("Error during Data Source initialization:", err)
     })
 
