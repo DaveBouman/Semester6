@@ -1,7 +1,19 @@
-FROM node:16
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
+FROM node:16 as build
+
+WORKDIR /src/
+
+COPY package.json package-lock.json /src/
+
+RUN  npm ci --silent
+
 COPY . .
-EXPOSE 8080
-CMD ["npm", "run", "dev"],
+
+FROM node:16 as dev
+
+WORKDIR /src/
+
+COPY --from=build /src/node_modules node_modules
+
+USER node
+
+CMD npm run dev

@@ -17,7 +17,6 @@ const corsOptions = {
     methods: "GET, PUT, DELETE, POST",
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-
 DataSource
     .initialize()
     .then(() => {
@@ -27,9 +26,7 @@ DataSource
         Logger.error("Error during Data Source initialization:", err)
     })
 
-// create and setup express app
 const app = express()
-
 app.use(
     cookieSession({
         name: "session",
@@ -37,10 +34,8 @@ app.use(
         keys: [process.env.COOKIE_SESSIONS_KEY],
     })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(morganMiddleware);
 app.use(cors(corsOptions));
 app.use(helmet());
