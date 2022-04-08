@@ -9,7 +9,7 @@ import morganMiddleware from './middleware/morganMiddelware';
 import cookieSession from "cookie-session";
 import './middleware/passportMiddleware';
 import passport from 'passport';
-import DataSource from './dataSource';
+import DataSource, { kafka } from './dataSource';
 import Logger from './logger/logger';
 
 const corsOptions = {
@@ -53,4 +53,4 @@ app.use(bodyParser.json({
 app.use('/api/v1', routes);
 
 // start express server
-app.listen(3000)
+app.listen(3000);
