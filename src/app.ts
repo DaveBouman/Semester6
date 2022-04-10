@@ -9,7 +9,7 @@ import morganMiddleware from './middleware/morganMiddelware';
 import cookieSession from "cookie-session";
 import './middleware/passportMiddleware';
 import passport from 'passport';
-import DataSource from './dataSource';
+import DataSource, { kafka } from './dataSource';
 import Logger from './logger/logger';
 
 const corsOptions = {
@@ -27,9 +27,7 @@ DataSource
         Logger.error("Error during Data Source initialization:", err)
     })
 
-// create and setup express app
 const app = express()
-
 app.use(
     cookieSession({
         name: "session",
@@ -37,10 +35,8 @@ app.use(
         keys: [process.env.COOKIE_SESSIONS_KEY],
     })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(morganMiddleware);
 app.use(cors(corsOptions));
 app.use(helmet());
@@ -49,8 +45,7 @@ app.use(bodyParser.json({
         req.rawBody = buf
     }
 }));
-
 app.use('/api/v1', routes);
 
 // start express server
-app.listen(3000)
+app.listen(3000);

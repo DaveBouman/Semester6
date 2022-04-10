@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
-    "dev": "set debug=* && ts-node-dev --respawn --transpile-only ./src/app.ts",
+    "dev2": "set debug=* && ts-node-dev --respawn --transpile-only ./src/app.ts",
+    "dev": "ts-node-dev --poll --respawn --transpile-only --inspect=0.0.0.0:9229 --ignore-watch node_modules ./src/app.ts",
     "prod": "tsc && node ./build/index.js",
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix"
@@ -39,6 +40,7 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "helmet": "^5.0.2",
+    "kafkajs": "^1.16.0",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "passport": "^0.5.2",
