@@ -2,7 +2,8 @@ FROM node:16 as build
 
 WORKDIR /src/
 
-COPY package.json package-lock.json /src/
+COPY tsconfig.json ./tsconfig.json
+COPY package.json ./package-lock.json /src/
 
 RUN  npm ci --silent
 

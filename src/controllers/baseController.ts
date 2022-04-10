@@ -37,7 +37,7 @@ class BaseController<T> {
     const entities = await this.baseService.getList(skip, take);
 
     return res.send({
-      message: "successful",
+      message: "This is succesfull",
       entity: entities,
     });
   };
