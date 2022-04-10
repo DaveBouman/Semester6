@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
     "dev2": "set debug=* && ts-node-dev --respawn --transpile-only ./src/app.ts",
-    "dev": "ts-node-dev --poll --respawn --transpile-only --inspect=0.0.0.0:9229 ./src/app.ts",
+    "dev": "ts-node-dev --poll --respawn --transpile-only --inspect=0.0.0.0:9229 --ignore-watch node_modules ./src/app.ts",
     "prod": "tsc && node ./build/index.js",
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix"
