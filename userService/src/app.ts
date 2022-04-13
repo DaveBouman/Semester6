@@ -11,7 +11,7 @@ import './middleware/passportMiddleware';
 import passport from 'passport';
 import DataSource, { kafka } from './dataSource';
 import Logger from './logger/logger';
-import { Kafka } from 'kafkajs';
+import Kafka from './publisher/kafka';
 
 const corsOptions = {
     origin: '*',
@@ -54,35 +54,41 @@ app.listen(5000);
 
 async function main() {
 
-    const kafka = new Kafka({
-        clientId: 'Kafka-test',
-        brokers: ['kafka:9092'],
-    })
+    const kafka = new Kafka();
 
-    const producer = kafka.producer()
+    await kafka.sendPayload('test', 'test', ['this is the message', 'with another message']);
+    const test = await kafka.receivePayload('test-group', 'test');
 
-    await producer.connect()
-    await producer.send({
-        topic: 'test-topic',
-        messages: [
-            { value: 'Hello KafkaJS user!' },
-        ],
-    })
-
-    await producer.disconnect()
-
-    const consumer = kafka.consumer({ groupId: 'test-group' })
-
-    await consumer.connect()
-    await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
-
-    await consumer.run({
-        eachMessage: async ({ topic, partition, message }) => {
-            console.log({
-                value: message.value.toString(),
-            })
-        },
-    })
+    console.log("test", test);
 }
 
 main();
+
+// async function main() {
+//     const producer = kafka.producer()
+
+//     await producer.connect()
+//     await producer.send({
+//         topic: 'test-topic',
+//         messages: [
+//             { value: 'Hello KafkaJS user!' },
+//         ],
+//     })
+
+//     await producer.disconnect()
+
+//     const consumer = kafka.consumer({ groupId: 'test-group' })
+
+//     await consumer.connect()
+//     await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
+
+//     await consumer.run({
+//         eachMessage: async ({ message }: KafkaMessage) => {
+//             console.log({
+//                 value: message.value.toString(),
+//             })
+//         },
+//     })
+// }
+
+// main();
