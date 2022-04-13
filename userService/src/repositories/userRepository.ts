@@ -1,5 +1,20 @@
-import { EntityRepository, Repository } from 'typeorm';
-import User  from '../entities/database/user';
+import User from '../entities/database/user';
+import { BaseRepository } from './baseRepository';
 
-@EntityRepository(User)
-export default class UserRepository extends Repository<User> {}
+class UserRepository extends BaseRepository<User> {
+
+    /*
+    example function on how to override from base implementation
+    */
+
+    // override async getOneByUUID(uuid: string) {
+    //     return await this.repository.findOne({
+    //         where: {
+    //             uuid: uuid
+    //         }
+    //     })
+    // }
+
+}
+
+export default UserRepository

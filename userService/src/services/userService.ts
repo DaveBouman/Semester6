@@ -1,37 +1,29 @@
-import { getRepository } from "typeorm";
+import UserConsumer from "../consumers/userConsumer";
 import User from "../entities/database/user";
+import UserRepository from "../repositories/userRepository";
+import BaseService from "./baseService";
 
-class UserService {
+class UserService extends BaseService<User> {
 
-    async getOneById(id: string): Promise<User> {
-        const user = await getRepository(User).findOne({ socialId: id }) as unknown as User;
-        return user;
+    constructor(private todoRepository = new UserRepository(User)
+    ) {
+        super(User);
+        UserConsumer;
     }
 
-    async getOneByEmail(email: string): Promise<User> {
-        const result = await getRepository(User)
-            .findOne({ email: email }) as User;
-        return result;
+    insertData = async () => {
+
+
     }
 
-    async getList() {
-        const users = await getRepository(User).find();
-        return users;
-    }
+    /*
+    example function on how to override from base implementation
+    */
 
-    async create(user: User): Promise<User> {
-        const newUser = new User();
+    // override async getOneByUUID(uuid: string) {
+    //     return this.todoRepository.getOneByUUID(uuid);
+    // }
 
-        newUser.email = user.email;
-        newUser.familyName = user.familyName;
-        newUser.socialId = user.socialId;
-        newUser.social = user.social;
-        newUser.imageUrl = user.imageUrl;
-        newUser.name = user.name;
-
-        const result = await getRepository(User).save(newUser);
-        return result;
-    }
 }
 
-export default UserService;
+export default UserService

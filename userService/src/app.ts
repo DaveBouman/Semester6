@@ -11,7 +11,7 @@ import './middleware/passportMiddleware';
 import passport from 'passport';
 import DataSource, { kafka } from './dataSource';
 import Logger from './logger/logger';
-import Kafka from './publisher/kafka';
+import KafkaService from './services/kafkaService';
 
 const corsOptions = {
     origin: '*',
@@ -54,12 +54,18 @@ app.listen(5000);
 
 async function main() {
 
-    const kafka = new Kafka();
+    const kafkaService = new KafkaService();
 
-    await kafka.sendPayload('test', 'test', ['this is the message', 'with another message']);
-    const test = await kafka.receivePayload('test-group', 'test');
+    // await kafkaService.sendPayload('test', 'test', ['this is the message', 'with another message']);
+    // await kafkaService.receivePayload('test-group', 'test');
 
-    console.log("test", test);
+    await kafkaService.produceMessage({
+        topic: "create-user",
+        messages:
+            [
+                { value: "hello world" }
+            ]
+    })
 }
 
 main();
