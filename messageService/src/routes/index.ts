@@ -5,7 +5,7 @@ import Facebook from './facebook';
 import MagicLogin from './magicLogin';
 import Stripe from './stripe';
 import Todo from './todo';
-import User from './user';
+import Message from './message';
 
 const routes = Router();
 
@@ -14,6 +14,6 @@ routes.use('/todos', Todo);
 routes.use('/facebook', use(Facebook));
 routes.use('/auth', MagicLogin);
 routes.use('/stripe', Stripe);
-routes.use('/users', User);
+routes.use('/messages', Message);
 
 export default routes;

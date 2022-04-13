@@ -1,14 +1,14 @@
 import KafkaService from "../services/kafkaService";
 
-class UserConsumer {
+class MessageConsumer {
+
     constructor(private kafkaService = new KafkaService()) {
         this.runConsumers();
     }
 
     async runConsumers() {
         const consumer = await this.kafkaService.createConsumer('test-message-service');
-        consumer.subscribe({ topic: "create-user" });
-        consumer.subscribe({ topic: "delete-user" });
+        consumer.subscribe({ topic: "create-message" });
 
         await consumer.run({
             eachMessage: async ({ topic, partition, message }) => {
@@ -40,4 +40,4 @@ class UserConsumer {
 
 }
 
-export default new UserConsumer();
+export default new MessageConsumer();

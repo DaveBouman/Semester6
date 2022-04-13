@@ -8,7 +8,6 @@ class UserConsumer {
     async runConsumers() {
         const consumer = await this.kafkaService.createConsumer('test-user-service');
         consumer.subscribe({ topic: "create-user" });
-        consumer.subscribe({ topic: "delete-user" });
 
         await consumer.run({
             eachMessage: async ({ topic, partition, message }) => {

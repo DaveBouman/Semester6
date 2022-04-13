@@ -50,36 +50,3 @@ app.use('/api/v1', routes);
 
 // start express server
 app.listen(5000);
-
-
-async function main() {
-    // const producer = kafka.producer()
-
-    // await producer.connect()
-    // await producer.send({
-    //     topic: 'test-topic',
-    //     messages: [
-    //         { value: 'Hello KafkaJS user!' },
-    //     ],
-    // })
-
-    // await producer.disconnect()
-
-    // const consumer = kafka.consumer({ groupId: 'test-group' })
-
-    // await consumer.connect()
-    // await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
-
-    // const test = consumer.run();
-    // await consumer.run({
-    //     eachMessage: async ({ topic, partition, message, heartbeat }) => {
-    //         console.log({
-    //             key: message.key?.toString(),
-    //             value: message.value?.toString(),
-    //             headers: message.headers,
-    //         })
-    //     },
-    // })
-}
-
-main();

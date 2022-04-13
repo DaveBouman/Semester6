@@ -1,12 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate, ManyToOne, Generated } from 'typeorm';
-import User from './user';
 import { BaseEntity as Base } from 'typeorm';
 
 export interface BaseEntity {
     id: number;
     uuid: string;
-    createdBy: User;
-    updatedBy: User;
     createdOn: Date;
     updatedOn: Date;
     version: number;
@@ -30,12 +27,6 @@ export abstract class BaseEntity extends Base {
 
     @Column({ default: 1 })
     version!: number;
-
-    @ManyToOne(() => User, user => user.createdBy)
-    createdBy!: User;
-
-    @ManyToOne(() => User, user => user.updatedBy)
-    updatedBy!: User;
 
     @BeforeInsert()
     insertDate() {

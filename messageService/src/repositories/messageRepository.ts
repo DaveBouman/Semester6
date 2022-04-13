@@ -1,7 +1,7 @@
-import { Todo } from '../entities/database/todo';
+import { Message } from '../entities/database/message';
 import { BaseRepository } from './baseRepository';
 
-class TodoRepository extends BaseRepository<Todo> { 
+class MessageRepository extends BaseRepository<Message> {
 
     /*
     example function on how to override from base implementation
@@ -17,4 +17,4 @@ class TodoRepository extends BaseRepository<Todo> {
 
 }
 
-export default TodoRepository
+export default MessageRepository
