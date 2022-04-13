@@ -17,15 +17,15 @@ services:
     volumes:
       - ./userService:/src
 
-  # auth-service:
-  #   build: ./authService
-  #   hostname: auth-service
-  #   env_file:
-  #     - ./authService/.env
-  #   ports:
-  #     - "82:5000"
-  #   volumes:
-  #     - ./authService:/src
+  message-service:
+    build: ./messageService
+    hostname: message-service
+    env_file:
+      - ./messageService/.env
+    ports:
+      - "82:5000"
+    volumes:
+      - ./messageService:/src
 
   database:
     image: mysql
