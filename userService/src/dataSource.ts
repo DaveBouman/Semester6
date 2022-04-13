@@ -16,7 +16,3 @@ export default new DataSource({
     migrations: ['api/migrations/**/*.ts', 'migrations/**/*.js'],
 })
 
-export const kafka = new Kafka({
-    clientId: 'my-app',
-    brokers: ['kafka:9092'],
-})

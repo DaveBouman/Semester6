@@ -1,10 +1,10 @@
-version: '3'
+version: "3"
 
 services:
   redis:
-    image: 'redis:alpine'
+    image: "redis:alpine"
     ports:
-      - '6379:6379'
+      - "6379:6379"
 
   user-service:
     build: ./userService
@@ -27,12 +27,12 @@ services:
     volumes:
       - ./authService:/src
 
-  database:
+  db:
     image: mysql
     restart: always
     command: --default-authentication-plugin=mysql_native_password
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
     environment:
@@ -49,28 +49,34 @@ services:
     depends_on:
       - database
 
-  # zookeeper:
-  #   image: wurstmeister/zookeeper
-  #   container_name: zookeeper
-  #   ports:
-  #     - '2181:2181'
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
 
-  # kafka:
-  #   image: wurstmeister/kafka
-  #   container_name: kafka
-  #   ports:
-  #     - '9092:9092'
-  #   environment:
-  #     KAFKA_ADVERTISED_HOST_NAME: localhost
-  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  kafka:
+    image: wurstmeister/kafka
+    depends_on:
+      - zookeeper
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092 
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  # nginx:
-  #   build: ./nginx
-  #   ports:
-  #   - '80:80'
-  #   depends_on:
-  #   - user-service
-  #   - auth-service
+  nginx:
+    build: ./nginx
+    ports:
+    - "80:80"
+    depends_on:
+    - user-service
+    - auth-service
 
 volumes:
   mysql-data:
