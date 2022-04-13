@@ -13,6 +13,7 @@ services:
       - ./userService/.env
     ports:
       - "81:5000"
+      - "9229:9229"
     volumes:
       - ./userService:/src
 
@@ -48,28 +49,28 @@ services:
     depends_on:
       - database
 
-  zookeeper:
-    image: wurstmeister/zookeeper
-    container_name: zookeeper
-    ports:
-      - '2181:2181'
+  # zookeeper:
+  #   image: wurstmeister/zookeeper
+  #   container_name: zookeeper
+  #   ports:
+  #     - '2181:2181'
 
-  kafka:
-    image: wurstmeister/kafka
-    container_name: kafka
-    ports:
-      - '9092:9092'
-    environment:
-      KAFKA_ADVERTISED_HOST_NAME: localhost
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  # kafka:
+  #   image: wurstmeister/kafka
+  #   container_name: kafka
+  #   ports:
+  #     - '9092:9092'
+  #   environment:
+  #     KAFKA_ADVERTISED_HOST_NAME: localhost
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
-  nginx:
-    build: ./nginx
-    ports:
-    - '80:80'
-    depends_on:
-    - user-service
-    - auth-service
+  # nginx:
+  #   build: ./nginx
+  #   ports:
+  #   - '80:80'
+  #   depends_on:
+  #   - user-service
+  #   - auth-service
 
 volumes:
   mysql-data:

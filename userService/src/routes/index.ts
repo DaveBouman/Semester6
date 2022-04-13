@@ -9,8 +9,8 @@ import Todo from './todo';
 const routes = Router();
 
 routes.use('/api/google', Google);
-routes.use('/todos', use(Todo));
-routes.use('/api/facebook', Facebook);
+routes.use('/todos', Todo);
+routes.use('/api/facebook', use(Facebook));
 routes.use('/api/auth', MagicLogin);
 routes.use('/api/stripe', Stripe);
 

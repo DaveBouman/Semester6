@@ -1,12 +1,20 @@
-FROM node:alpine
+FROM node:16 as build
 
-WORKDIR /usr/src/app
+WORKDIR /src/
 
 COPY tsconfig.json ./tsconfig.json
-COPY package*.json ./
+COPY package.json ./package-lock.json /src/
 
-RUN npm install
+RUN  npm ci --silent
 
 COPY . .
 
-CMD ["npm", "run", "dev"]
+FROM node:16 as dev
+
+WORKDIR /src/
+
+COPY --from=build /src/node_modules node_modules
+
+USER node
+
+CMD npm run dev
