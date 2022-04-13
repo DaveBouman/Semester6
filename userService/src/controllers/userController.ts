@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { kafka } from '../dataSource';
 import User from '../entities/database/user';
 import UserService from '../services/userService';
 
@@ -34,6 +35,24 @@ class UserController {
         return res.send({
             message: 'succesful',
             entity: entities
+        });
+    }
+
+    async createTopic(req: Request, res: Response) {
+        const producer = kafka.producer()
+
+        await producer.connect()
+        await producer.send({
+            topic: 'test-topic',
+            messages: [
+                { value: 'Hello KafkaJS user!' },
+            ],
+        })
+        console.log("it goes here");
+        await producer.disconnect()
+
+        return res.send({
+            message: 'succesful',
         });
     }
 
