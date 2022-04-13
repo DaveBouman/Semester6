@@ -8,10 +8,9 @@ class KafkaService {
         this.producer = kafka.producer();
     }
 
-    createConsumer = async (groupId: string, topic: string, fromBeginning: boolean) => {
+    createConsumer = async (groupId: string) => {
         const consumer = kafka.consumer({ groupId: groupId })
         await consumer.connect();
-        await consumer.subscribe({ topic: topic, fromBeginning: fromBeginning });
 
         return consumer;
     }

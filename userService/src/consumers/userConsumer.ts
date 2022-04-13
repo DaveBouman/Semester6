@@ -6,18 +6,38 @@ class UserConsumer {
     }
 
     async runConsumers() {
-        const consumer = await this.kafkaService.createConsumer('test-user', 'test-topic', true);
+        const consumer = await this.kafkaService.createConsumer('test-user');
+        consumer.subscribe({ topic: "create-user" });
+        consumer.subscribe({ topic: "delete-user" });
 
         await consumer.run({
-            eachMessage: async ({ topic, partition, message, heartbeat }) => {
+            eachMessage: async ({ topic, partition, message }) => {
                 console.log({
                     key: message.key?.toString(),
                     value: message.value?.toString(),
                     headers: message.headers,
                 })
+
+                await this.consumeMessage(topic, message.value!.toString());
             },
         })
     }
+
+    consumeMessage = async (topic: string, message: string) => {
+        const obj = JSON.parse(message);
+
+        switch (topic) {
+            case 'create-user': {
+                console.log('create-user', obj);
+                break;
+            }
+            case 'delete-user': {
+                console.log("delete-user", obj);
+                break;
+            }
+        }
+    }
+
 }
 
 export default new UserConsumer();

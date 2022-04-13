@@ -40,12 +40,14 @@ class UserController {
 
     async createTopic(req: Request, res: Response) {
         const producer = kafka.producer()
+        const topic = req.body.topic;
+        const value = req.body.value;
 
         await producer.connect()
         await producer.send({
-            topic: 'test-topic',
+            topic: topic,
             messages: [
-                { value: 'Hello KafkaJS user!' },
+                { value: JSON.stringify(value) },
             ],
         })
         console.log("it goes here");
