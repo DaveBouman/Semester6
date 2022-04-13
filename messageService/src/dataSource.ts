@@ -17,6 +17,6 @@ export default new DataSource({
 })
 
 export const kafka = new Kafka({
-    clientId: 'my-app',
+    clientId: 'kafka',
     brokers: ['kafka:9092'],
 })
