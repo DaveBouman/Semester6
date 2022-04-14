@@ -12,12 +12,15 @@ services:
     env_file:
       - ./userService/.env
     ports:
-      - "81:5000"
+      - "50002:50002"
       - "9229:9229"
     networks:
       - platform
     volumes:
       - ./userService:/src
+    depends_on:
+      - placement
+      - redis
 
   user-service-dapr:
     image: "daprio/daprd:1.4.2"
@@ -27,7 +30,10 @@ services:
      "-app-id",
      "user-service-dapr",
      "-app-port", 
-     "5000",
+     "3500",
+     "-dapr-grpc-port", "50002",
+     "-placement-host-address",
+     "placement:50006",
      "-components-path", 
      "/components",
      ]
@@ -35,17 +41,23 @@ services:
       - user-service
     network_mode: "service:user-service"
 
-  message-service:
-    build: ./messageService
-    hostname: message-service
-    env_file:
-      - ./messageService/.env
-    ports:
-      - "82:5000"
-    networks:
-      - platform
-    volumes:
-      - ./messageService:/src
+  placement:
+      image: "daprio/dapr"
+      command: ["./placement", "-port", "50006"]
+      ports:
+        - "50006:50006"
+
+  # message-service:
+  #   build: ./messageService
+  #   hostname: message-service
+  #   env_file:
+  #     - ./messageService/.env
+  #   ports:
+  #     - "82:5000"
+  #   networks:
+  #     - platform
+  #   volumes:
+  #     - ./messageService:/src
 
   database:
     image: mysql
@@ -98,15 +110,15 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       
-  nginx:
-    build: ./nginx
-    ports:
-    - "80:80"
-    networks:
-      - platform
-    depends_on:
-    - user-service
-    - message-service
+  # nginx:
+  #   build: ./nginx
+  #   ports:
+  #   - "80:80"
+  #   networks:
+  #     - platform
+  #   depends_on:
+  #   - user-service
+    # - message-service
 
 networks:
   platform:

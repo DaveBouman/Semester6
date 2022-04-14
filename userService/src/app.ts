@@ -11,7 +11,7 @@ import './middleware/passportMiddleware';
 import passport from 'passport';
 import DataSource, { kafka } from './dataSource';
 import Logger from './logger/logger';
-import KafkaService from './services/kafkaService';
+import { CommunicationProtocolEnum, DaprClient, DaprServer } from 'dapr-client';
 
 const corsOptions = {
     origin: '*',
@@ -49,37 +49,23 @@ app.use(bodyParser.json({
 app.use('/api/v1', routes);
 
 // start express server
-app.listen(5000);
-
+app.listen(3000);
 
 async function main() {
-    // const producer = kafka.producer()
+    console.log("test");
+    const daprHost = 'user-service-dapr';
+    const daprPort = '50002';
+    const serverHost = 'user-service';
+    const serverPort = '3501';
 
-    // await producer.connect()
-    // await producer.send({
-    //     topic: 'test-topic',
-    //     messages: [
-    //         { value: 'Hello KafkaJS user!' },
-    //     ],
-    // })
+    const server = new DaprServer(serverHost, serverPort, daprHost, daprPort);
+    const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.GRPC);
 
-    // await producer.disconnect()
+    await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: any) => console.log(`Received: ${JSON.stringify(data)}`));
+    await server.start();
 
-    // const consumer = kafka.consumer({ groupId: 'test-group' })
-
-    // await consumer.connect()
-    // await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
-
-    // const test = consumer.run();
-    // await consumer.run({
-    //     eachMessage: async ({ topic, partition, message, heartbeat }) => {
-    //         console.log({
-    //             key: message.key?.toString(),
-    //             value: message.value?.toString(),
-    //             headers: message.headers,
-    //         })
-    //     },
-    // })
+    // Send a message
+    await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "world" });
 }
 
 main();
