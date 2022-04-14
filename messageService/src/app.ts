@@ -7,11 +7,8 @@ import cors from 'cors';
 import routes from './routes/index';
 import morganMiddleware from './middleware/morganMiddelware';
 import cookieSession from "cookie-session";
-import './middleware/passportMiddleware';
-import passport from 'passport';
 import DataSource, { kafka } from './dataSource';
 import Logger from './logger/logger';
-import KafkaService from './services/kafkaService';
 
 const corsOptions = {
     origin: '*',
@@ -36,8 +33,7 @@ app.use(
         keys: [process.env.COOKIE_SESSIONS_KEY],
     })
 );
-app.use(passport.initialize());
-app.use(passport.session());
+
 app.use(morganMiddleware);
 app.use(cors(corsOptions));
 app.use(helmet());
