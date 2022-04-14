@@ -25,7 +25,8 @@ services:
     command: [
       "./daprd",
      "-app-id", "user-service-dapr",
-     "-app-port", "443",
+    #  "-app-port", "443",
+     "-app-protocol", "5000",
      "-components-path", "/components",
      "-placement-host-address", "placement:50006",
      "-dapr-grpc-port", "50003"
