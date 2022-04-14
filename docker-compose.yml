@@ -78,6 +78,26 @@ services:
     - user-service
     - auth-service
 
+  user-service-dapr:
+    image: "daprio/daprd:0.8.0"
+    command:
+      [
+        "./daprd",
+        "-app-id",
+        "user-service",
+        "-app-port",
+        "5000",
+        "-placement-address",
+        "placement:6000",
+        "-components-path",
+        "/components",
+      ]
+    volumes:
+      - "./components/:/components"
+    depends_on:
+      - website
+    network_mode: "service:user-service"
+
 volumes:
   mysql-data:
   nodemodules: {}
