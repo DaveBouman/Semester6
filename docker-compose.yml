@@ -14,8 +14,32 @@ services:
     ports:
       - "81:5000"
       - "9229:9229"
+    networks:
+      - platform
     volumes:
       - ./userService:/src
+
+  user-service-dapr:
+    image: "daprio/daprd:edge"
+    container_name: user-service-dapr
+    command: [
+      "./daprd",
+     "-app-id", "user-service-dapr",
+     "-app-port", "443",
+     "-placement-host-address", "placement:50006",
+     "-dapr-grpc-port", "50003"
+     ]
+    depends_on:
+      - user-service
+    network_mode: "service:user-service"
+
+  placement:
+      image: "daprio/dapr"
+      command: ["./placement", "-port", "50006"]
+      ports:
+        - "50006:50006"
+      networks:
+        - platform
 
   message-service:
     build: ./messageService
@@ -24,6 +48,8 @@ services:
       - ./messageService/.env
     ports:
       - "82:5000"
+    networks:
+      - platform
     volumes:
       - ./messageService:/src
 
@@ -33,6 +59,8 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - "3305:3306"
+    networks:
+      - platform
     volumes:
       - mysql-data:/var/lib/mysql
     environment:
@@ -44,6 +72,8 @@ services:
   admin:
     image: adminer
     restart: always
+    networks:
+      - platform
     ports:      
       - "8080:8080"
     depends_on:
@@ -52,6 +82,8 @@ services:
   zookeeper:
     image: wurstmeister/zookeeper
     container_name: zookeeper
+    networks:
+      - platform
     ports:
       - "2181:2181"
 
@@ -59,6 +91,8 @@ services:
     image: wurstmeister/kafka
     depends_on:
       - zookeeper
+    networks:
+      - platform
     container_name: kafka
     ports:
       - "9092:9092"
@@ -69,35 +103,21 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://kafka:9092 
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-
+      
   nginx:
     build: ./nginx
     ports:
     - "80:80"
+    networks:
+      - platform
     depends_on:
     - user-service
     - auth-service
 
-  user-service-dapr:
-    image: "daprio/daprd:0.8.0"
-    command:
-      [
-        "./daprd",
-        "-app-id",
-        "user-service",
-        "-app-port",
-        "5000",
-        "-placement-address",
-        "placement:6000",
-        "-components-path",
-        "/components",
-      ]
-    volumes:
-      - "./components/:/components"
-    depends_on:
-      - website
-    network_mode: "service:user-service"
+networks:
+  platform:
 
 volumes:
   mysql-data:
   nodemodules: {}
+
