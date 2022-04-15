@@ -1,10 +1,6 @@
-version: "3"
+version: "3.7"
 
 services:
-  redis:
-    image: "redis:alpine"
-    ports:
-      - "6379:6379"
 
   user-service:
     build: ./userService
@@ -12,40 +8,34 @@ services:
     env_file:
       - ./userService/.env
     ports:
-      - "50002:50002"
-      - "9229:9229"
+      - "3000:3000"
+      # - "9229:9229"
     networks:
       - platform
     volumes:
       - ./userService:/src
     depends_on:
-      - placement
       - redis
+      - placement
 
   user-service-dapr:
-    image: "daprio/daprd:1.4.2"
+    image: "daprio/daprd:edge"
     container_name: user-service-dapr
     command: [
       "./daprd",
-     "-app-id",
-     "user-service-dapr",
-     "-app-port", 
-     "3500",
-     "-dapr-grpc-port", "50002",
-     "-placement-host-address",
-     "placement:50006",
+     "-app-id", "user-service-dapr",
+     "-app-port", "3000",
+     "-dapr-grpc-port","50002",
+     "-dapr-http-port","53001",
+     "-placement-host-address", "placement:50006",
      "-components-path", 
-     "/components",
+     "./components",
      ]
+    networks:
+      - platform
     depends_on:
       - user-service
-    network_mode: "service:user-service"
-
-  placement:
-      image: "daprio/dapr"
-      command: ["./placement", "-port", "50006"]
-      ports:
-        - "50006:50006"
+    # network_mode: "service:user-service"
 
   # message-service:
   #   build: ./messageService
@@ -58,6 +48,21 @@ services:
   #     - platform
   #   volumes:
   #     - ./messageService:/src
+
+  placement:
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+    networks:
+      - platform
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    networks:
+      - platform
 
   database:
     image: mysql
@@ -85,30 +90,30 @@ services:
     depends_on:
       - database
 
-  zookeeper:
-    image: wurstmeister/zookeeper
-    container_name: zookeeper
-    networks:
-      - platform
-    ports:
-      - "2181:2181"
+  # zookeeper:
+  #   image: wurstmeister/zookeeper
+  #   container_name: zookeeper
+  #   networks:
+  #     - platform
+  #   ports:
+  #     - "2181:2181"
 
-  kafka:
-    image: wurstmeister/kafka
-    depends_on:
-      - zookeeper
-    networks:
-      - platform
-    container_name: kafka
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_LISTENERS: PLAINTEXT://kafka:9092 
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  # kafka:
+  #   image: wurstmeister/kafka
+  #   depends_on:
+  #     - zookeeper
+  #   networks:
+  #     - platform
+  #   container_name: kafka
+  #   ports:
+  #     - "9092:9092"
+  #   environment:
+  #     KAFKA_BROKER_ID: 1
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+  #     KAFKA_LISTENERS: PLAINTEXT://kafka:9092 
+  #     KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       
   # nginx:
   #   build: ./nginx

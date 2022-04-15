@@ -1,4 +1,4 @@
-FROM node:16 as build
+FROM node as build
 
 WORKDIR /src/
 
@@ -7,8 +7,9 @@ COPY package.json ./package-lock.json /src/
 
 RUN  npm ci --silent
 
+EXPOSE 3000
+
 COPY . .
 
 USER node
-
 CMD npm run dev

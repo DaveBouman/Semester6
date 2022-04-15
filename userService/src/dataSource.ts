@@ -1,3 +1,5 @@
+import { CommunicationProtocolEnum, DaprClient, DaprServer } from "dapr-client";
+import dapr from 'dapr-client';
 import { Kafka } from "kafkajs"
 import { DataSource } from "typeorm"
 

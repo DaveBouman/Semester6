@@ -10,7 +10,7 @@ class UserService extends BaseService<User> {
     constructor(private userRepository = new UserRepository(User),
     ) {
         super(User);
-        UserConsumer;
+        // UserConsumer;
     }
 
 
