@@ -8,7 +8,8 @@ services:
     env_file:
       - ./userService/.env
     ports:
-      - "3000:3000"
+      - "50001:50001"
+      - "3001:3001"
       # - "9229:9229"
     networks:
       - platform
@@ -19,23 +20,33 @@ services:
       - placement
 
   user-service-dapr:
-    image: "daprio/daprd:edge"
+    image: "daprio/dapr:edge"
     container_name: user-service-dapr
     command: [
-      "./daprd",
+     "./daprd",
      "-app-id", "user-service-dapr",
      "-app-port", "3000",
-     "-dapr-grpc-port","50002",
+     "-dapr-grpc-port","50001",
      "-dapr-http-port","53001",
-     "-placement-host-address", "placement:50006",
+     "-placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
      "-components-path", 
      "./components",
      ]
-    networks:
-      - platform
+    volumes:
+        - "./components/:/components" # Mount our components folder for the runtime to use
     depends_on:
       - user-service
-    # network_mode: "service:user-service"
+    network_mode: "service:user-service" 
+
+  placement:
+    container_name: placement
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+    networks:
+      - platform
+
 
   # message-service:
   #   build: ./messageService
@@ -49,46 +60,45 @@ services:
   #   volumes:
   #     - ./messageService:/src
 
-  placement:
-    image: "daprio/dapr"
-    command: ["./placement", "-port", "50006"]
-    ports:
-      - "50006:50006"
-    networks:
-      - platform
-
   redis:
+    container_name: redis
     image: "redis:alpine"
     ports:
       - "6379:6379"
     networks:
       - platform
 
-  database:
-    image: mysql
-    restart: always
-    command: --default-authentication-plugin=mysql_native_password
-    ports:
-      - "3305:3306"
-    networks:
-      - platform
-    volumes:
-      - mysql-data:/var/lib/mysql
-    environment:
-      MYSQL_USER: "admin"
-      MYSQL_ROOT_PASSWORD: "admin"
-      MYSQL_PASSWORD: "admin"
-      MYSQL_DATABASE: "test"
+networks:
+  platform:
 
-  admin:
-    image: adminer
-    restart: always
-    networks:
-      - platform
-    ports:      
-      - "8080:8080"
-    depends_on:
-      - database
+volumes:
+  mysql-data:
+  nodemodules: {}
+  # database:
+  #   image: mysql
+  #   restart: always
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   ports:
+  #     - "3305:3306"
+  #   networks:
+  #     - platform
+  #   volumes:
+  #     - mysql-data:/var/lib/mysql
+  #   environment:
+  #     MYSQL_USER: "admin"
+  #     MYSQL_ROOT_PASSWORD: "admin"
+  #     MYSQL_PASSWORD: "admin"
+  #     MYSQL_DATABASE: "test"
+
+  # admin:
+  #   image: adminer
+  #   restart: always
+  #   networks:
+  #     - platform
+  #   ports:      
+  #     - "8080:8080"
+  #   depends_on:
+  #     - database
 
   # zookeeper:
   #   image: wurstmeister/zookeeper
@@ -125,9 +135,3 @@ services:
   #   - user-service
     # - message-service
 
-networks:
-  platform:
-
-volumes:
-  mysql-data:
-  nodemodules: {}
