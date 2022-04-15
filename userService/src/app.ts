@@ -48,7 +48,7 @@ app.use(bodyParser.json({
 }));
 app.use('/api/v1', routes);
 
-app.use("/dapr", () => console.log("this is a test"));
+// app.use("/dapr", () => console.log("this is a test"));
 // start express server
 
 app.listen(3001);
@@ -80,7 +80,7 @@ async function start() {
     // Send a message
     await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "world" });
     console.log("test4");
-
+    app.use('/dapr', async () => await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "This is by api" }));
     // await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: any) => console.log(`Received: ${JSON.stringify(data)}`));
 }
 
