@@ -2,6 +2,16 @@ version: "3.7"
 
 services:
 
+  placement:
+    container_name: placement
+    image: "daprio/dapr"
+    command: ["./placement", "-port", "50006"]
+    ports:
+      - "50006:50006"
+    networks:
+      - platform
+
+
   user-service:
     build: ./userService
     container_name: user-service
@@ -38,27 +48,41 @@ services:
       - user-service
     network_mode: "service:user-service" 
 
-  placement:
-    container_name: placement
-    image: "daprio/dapr"
-    command: ["./placement", "-port", "50006"]
-    ports:
-      - "50006:50006"
-    networks:
-      - platform
-
-
   # message-service:
   #   build: ./messageService
   #   hostname: message-service
   #   env_file:
   #     - ./messageService/.env
   #   ports:
-  #     - "82:5000"
+  #     - "50000:50000"
+  #     - "3000:3000"
   #   networks:
   #     - platform
   #   volumes:
   #     - ./messageService:/src
+  #   depends_on:
+  #     - redis
+  #     - placement
+
+
+  # message-service-dapr:
+  #   image: "daprio/dapr:edge"
+  #   container_name: message-service-dapr
+  #   command: [
+  #    "./daprd",
+  #    "-app-id", "user-service-dapr",
+  #    "-app-port", "3000",
+  #    "-dapr-grpc-port","5000",
+  #    "-dapr-http-port","53001",
+  #    "-placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
+  #    "-components-path", 
+  #    "./components",
+  #    ]
+  #   volumes:
+  #       - "./components/:/components" # Mount our components folder for the runtime to use
+  #   depends_on:
+  #     - message-service
+  #   network_mode: "service:message-service" 
 
   redis:
     container_name: redis

@@ -71,7 +71,7 @@ async function start() {
     // Initialize the server to subscribe (listen)
     await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: Record<string, any>) => {
         // The library parses JSON when possible.
-        console.log(`[Dapr-JS][Example] Received on subscription: ${JSON.stringify(data)}`)
+        console.log(`[Dapr-JS][user service] Received: ${JSON.stringify(data)}`)
     });
 
     await server.start();
