@@ -9,15 +9,12 @@ class MessageService extends BaseService<Message> {
     constructor(private messageRepository = new MessageRepository(Message),
     ) {
         super(Message);
-        MessageConsumer;
     }
 
     override async create(entity: Message) {
 
         return this.messageRepository.create(entity);
     }
-
-
 }
 
 export default MessageService

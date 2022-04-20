@@ -54,14 +54,14 @@ app.use('/api/v1', routes);
 app.listen(3001);
 
 
-
-
 async function start() {
     const daprHost = 'localhost';
     const daprPort = '53001';
     const serverHost = 'localhost';
     const serverPort = '3000';
-    console.log("test");
+
+    const STATE_STORE_NAME = "statestore";
+
 
 
     const server = new DaprServer(serverHost, serverPort, daprHost, daprPort, CommunicationProtocolEnum.HTTP);
@@ -78,10 +78,25 @@ async function start() {
     console.log("test3");
 
     // Send a message
-    await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "world" });
+    await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "message service" });
     console.log("test4");
     app.use('/dapr', async () => await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "This is by api" }));
+
     // await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: any) => console.log(`Received: ${JSON.stringify(data)}`));
+
+    await client.state.save(STATE_STORE_NAME, [
+        {
+            key: "order_3",
+            value: '1'
+        },
+        {
+            key: "order_4",
+            value: 'this is from the user service via redis'
+        }
+    ]);
+
+    // var result = await client.state.get(STATE_STORE_NAME, "order_1");
+    // console.log("Result after get: " + result);
 }
 
 start().catch((e) => {

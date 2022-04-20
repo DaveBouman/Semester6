@@ -17,14 +17,14 @@ const corsOptions = {
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
-DataSource
-    .initialize()
-    .then(() => {
-        Logger.info("Data Source has been initialized!")
-    })
-    .catch((err: Error) => {
-        Logger.error("Error during Data Source initialization:", err)
-    })
+// DataSource
+//     .initialize()
+//     .then(() => {
+//         Logger.info("Data Source has been initialized!")
+//     })
+//     .catch((err: Error) => {
+//         Logger.error("Error during Data Source initialization:", err)
+//     })
 
 const app = express()
 app.use(
@@ -46,18 +46,18 @@ app.use(bodyParser.json({
 app.use('/api/v1', routes);
 
 // start express server
-app.listen(3001);
+app.listen(3002);
 
 async function start() {
     const daprHost = 'localhost';
-    const daprPort = '53000';
+    const daprPort = '53002';
     const serverHost = 'localhost';
-    const serverPort = '3000';
+    const serverPort = '3003';
     console.log("test");
 
 
     const server = new DaprServer(serverHost, serverPort, daprHost, daprPort, CommunicationProtocolEnum.HTTP);
-    // const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP);
+    const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP);
     console.log("test2");
 
     // Initialize the server to subscribe (listen)
@@ -72,8 +72,14 @@ async function start() {
     // Send a message
     // await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "world" });
     console.log("test4");
+    var result = await client.state.get("statestore", "order_4");
+    console.log("Result after get: " + result);
     // app.use('/dapr', async () => await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "This is by api" }));
     // await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: any) => console.log(`Received: ${JSON.stringify(data)}`));
+}
+
+function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 start().catch((e) => {

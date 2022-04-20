@@ -2,6 +2,14 @@ version: "3.7"
 
 services:
 
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    networks:
+      - platform
+
   placement:
     container_name: placement
     image: "daprio/dapr"
@@ -11,6 +19,40 @@ services:
     networks:
       - platform
 
+  message-service:
+    build: ./messageService
+    hostname: message-service
+    env_file:
+      - ./messageService/.env
+    ports:
+      - "50000:50000"
+      - "3002:3002"
+    networks:
+      - platform
+    volumes:
+      - ./messageService:/src
+    depends_on:
+      - redis
+      - placement
+
+  message-service-dapr:
+    image: "daprio/dapr:edge"
+    container_name: message-service-dapr
+    command: [
+     "./daprd",
+     "-app-id", "user-service-dapr",
+     "-app-port", "3003",
+     "-dapr-grpc-port","5000",
+     "-dapr-http-port","53002",
+     "-placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
+     "-components-path", 
+     "./components",
+     ]
+    volumes:
+        - "./components/:/components" # Mount our components folder for the runtime to use
+    depends_on:
+      - message-service
+    network_mode: "service:message-service"
 
   user-service:
     build: ./userService
@@ -47,50 +89,7 @@ services:
     depends_on:
       - user-service
     network_mode: "service:user-service" 
-
-  # message-service:
-  #   build: ./messageService
-  #   hostname: message-service
-  #   env_file:
-  #     - ./messageService/.env
-  #   ports:
-  #     - "50000:50000"
-  #     - "3000:3000"
-  #   networks:
-  #     - platform
-  #   volumes:
-  #     - ./messageService:/src
-  #   depends_on:
-  #     - redis
-  #     - placement
-
-
-  # message-service-dapr:
-  #   image: "daprio/dapr:edge"
-  #   container_name: message-service-dapr
-  #   command: [
-  #    "./daprd",
-  #    "-app-id", "user-service-dapr",
-  #    "-app-port", "3000",
-  #    "-dapr-grpc-port","5000",
-  #    "-dapr-http-port","53001",
-  #    "-placement-host-address", "placement:50006", # Dapr's placement service can be reach via the docker DNS entry
-  #    "-components-path", 
-  #    "./components",
-  #    ]
-  #   volumes:
-  #       - "./components/:/components" # Mount our components folder for the runtime to use
-  #   depends_on:
-  #     - message-service
-  #   network_mode: "service:message-service" 
-
-  redis:
-    container_name: redis
-    image: "redis:alpine"
-    ports:
-      - "6379:6379"
-    networks:
-      - platform
+    
 
 networks:
   platform:
@@ -98,31 +97,32 @@ networks:
 volumes:
   mysql-data:
   nodemodules: {}
-  # database:
-  #   image: mysql
-  #   restart: always
-  #   command: --default-authentication-plugin=mysql_native_password
-  #   ports:
-  #     - "3305:3306"
-  #   networks:
-  #     - platform
-  #   volumes:
-  #     - mysql-data:/var/lib/mysql
-  #   environment:
-  #     MYSQL_USER: "admin"
-  #     MYSQL_ROOT_PASSWORD: "admin"
-  #     MYSQL_PASSWORD: "admin"
-  #     MYSQL_DATABASE: "test"
 
-  # admin:
-  #   image: adminer
-  #   restart: always
-  #   networks:
-  #     - platform
-  #   ports:      
-  #     - "8080:8080"
-  #   depends_on:
-  #     - database
+#  database:
+#     image: mysql
+#     restart: always
+#     command: --default-authentication-plugin=mysql_native_password
+#     ports:
+#       - "3305:3306"
+#     networks:
+#       - platform
+#     volumes:
+#       - mysql-data:/var/lib/mysql
+#     environment:
+#       MYSQL_USER: "admin"
+#       MYSQL_ROOT_PASSWORD: "admin"
+#       MYSQL_PASSWORD: "admin"
+#       MYSQL_DATABASE: "test"
+
+#   admin:
+#     image: adminer
+#     restart: always
+#     networks:
+#       - platform
+#     ports:      
+#       - "8080:8080"
+#     depends_on:
+#       - database
 
   # zookeeper:
   #   image: wurstmeister/zookeeper
