@@ -1,17 +1,17 @@
 import 'dotenv/config'
 import 'reflect-metadata';
 import express from 'express';
-// import bodyParser from 'body-parser';
-// import helmet from 'helmet';
-// import cors from 'cors';
-// import routes from './routes/index';
-// import morganMiddleware from './middleware/morganMiddelware';
-// import cookieSession from "cookie-session";
+import bodyParser from 'body-parser';
+import helmet from 'helmet';
+import cors from 'cors';
+import routes from './routes/index';
+import morganMiddleware from './middleware/morganMiddelware';
+import cookieSession from "cookie-session";
 // import './middleware/passportMiddleware';
-// import passport from 'passport';
-// import Logger from './logger/logger';
+import DataSource from './dataSource';
+import passport from 'passport';
+import Logger from './logger/logger';
 import { CommunicationProtocolEnum, DaprClient, DaprServer } from 'dapr-client';
-// import { cli } from 'winston/lib/winston/config';
 
 const corsOptions = {
     origin: '*',
@@ -19,37 +19,37 @@ const corsOptions = {
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
-// DataSource
-//     .initialize()
-//     .then(() => {
-//         Logger.info("Data Source has been initialized!")
-//     })
-//     .catch((err: Error) => {
-//         Logger.error("Error during Data Source initialization:", err)
-//     })
+DataSource
+    .initialize()
+    .then(() => {
+        Logger.info("Data Source has been initialized!")
+    })
+    .catch((err: Error) => {
+        Logger.error("Error during Data Source initialization:", err)
+    })
 
 const app = express()
-// app.use(
-//     cookieSession({
-//         name: "session",
-//         maxAge: 24 * 60 * 60 * 1000,
-//         keys: [process.env.COOKIE_SESSIONS_KEY],
-//     })
-// );
-// app.use(passport.initialize());
-// app.use(passport.session());
-// app.use(morganMiddleware);
-// app.use(cors(corsOptions));
-// app.use(helmet());
-// app.use(bodyParser.json({
-//     verify: (req, res, buf) => {
-//         req.rawBody = buf
-//     }
-// }));
-// app.use('/api/v1', routes);
+app.use(
+    cookieSession({
+        name: "session",
+        maxAge: 24 * 60 * 60 * 1000,
+        keys: [process.env.COOKIE_SESSIONS_KEY],
+    })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(morganMiddleware);
+app.use(cors(corsOptions));
+app.use(helmet());
+app.use(bodyParser.json({
+    verify: (req, res, buf) => {
+        req.rawBody = buf
+    }
+}));
+app.use('/api/v1', routes);
 
-// app.use("/dapr", () => console.log("this is a test"));
-// start express server
+app.use("/dapr", () => console.log("this is a test"));
+//start express server
 
 app.listen(3001);
 
@@ -84,19 +84,19 @@ async function start() {
 
     // await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: any) => console.log(`Received: ${JSON.stringify(data)}`));
 
-    await client.state.save(STATE_STORE_NAME, [
-        {
-            key: "order_3",
-            value: { 
-                name: "test",
-                lastname: "sadsad"
-            },
-        },
-        {
-            key: "order_4",
-            value: 'this is from the user service via redis'
-        }
-    ]);
+    // await client.state.save(STATE_STORE_NAME, [
+    //     {
+    //         key: "order_3",
+    //         value: {
+    //             name: "test",
+    //             lastname: "sadsad"
+    //         },
+    //     },
+    //     {
+    //         key: "order_4",
+    //         value: 'this is from the user service via redis'
+    //     },
+    // ]);
 
     // var result = await client.state.get(STATE_STORE_NAME, "order_1");
     // console.log("Result after get: " + result);
