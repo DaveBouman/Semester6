@@ -1,17 +1,17 @@
 import 'dotenv/config'
 import 'reflect-metadata';
 import express from 'express';
-import bodyParser from 'body-parser';
-import helmet from 'helmet';
-import cors from 'cors';
-import routes from './routes/index';
-import morganMiddleware from './middleware/morganMiddelware';
-import cookieSession from "cookie-session";
-import './middleware/passportMiddleware';
-import passport from 'passport';
-import Logger from './logger/logger';
+// import bodyParser from 'body-parser';
+// import helmet from 'helmet';
+// import cors from 'cors';
+// import routes from './routes/index';
+// import morganMiddleware from './middleware/morganMiddelware';
+// import cookieSession from "cookie-session";
+// import './middleware/passportMiddleware';
+// import passport from 'passport';
+// import Logger from './logger/logger';
 import { CommunicationProtocolEnum, DaprClient, DaprServer } from 'dapr-client';
-import { cli } from 'winston/lib/winston/config';
+// import { cli } from 'winston/lib/winston/config';
 
 const corsOptions = {
     origin: '*',
@@ -29,24 +29,24 @@ const corsOptions = {
 //     })
 
 const app = express()
-app.use(
-    cookieSession({
-        name: "session",
-        maxAge: 24 * 60 * 60 * 1000,
-        keys: [process.env.COOKIE_SESSIONS_KEY],
-    })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(morganMiddleware);
+// app.use(
+//     cookieSession({
+//         name: "session",
+//         maxAge: 24 * 60 * 60 * 1000,
+//         keys: [process.env.COOKIE_SESSIONS_KEY],
+//     })
+// );
+// app.use(passport.initialize());
+// app.use(passport.session());
+// app.use(morganMiddleware);
 // app.use(cors(corsOptions));
-app.use(helmet());
-app.use(bodyParser.json({
-    verify: (req, res, buf) => {
-        req.rawBody = buf
-    }
-}));
-app.use('/api/v1', routes);
+// app.use(helmet());
+// app.use(bodyParser.json({
+//     verify: (req, res, buf) => {
+//         req.rawBody = buf
+//     }
+// }));
+// app.use('/api/v1', routes);
 
 // app.use("/dapr", () => console.log("this is a test"));
 // start express server
@@ -60,7 +60,7 @@ async function start() {
     const serverHost = 'localhost';
     const serverPort = '3000';
 
-    const STATE_STORE_NAME = "statestore";
+    const STATE_STORE_NAME = "postgres";
 
 
 
@@ -87,7 +87,10 @@ async function start() {
     await client.state.save(STATE_STORE_NAME, [
         {
             key: "order_3",
-            value: '1'
+            value: { 
+                name: "test",
+                lastname: "sadsad"
+            },
         },
         {
             key: "order_4",

@@ -10,6 +10,20 @@ services:
     networks:
       - platform
 
+  postgres:
+    container_name: postgres
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    networks:
+      - platform
+    volumes:
+      - postgresql-data:/var/lib/postgresql
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=db
+
   placement:
     container_name: placement
     image: "daprio/dapr"
@@ -18,6 +32,15 @@ services:
       - "50006:50006"
     networks:
       - platform
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    networks:
+      - platform
+    ports:      
+      - "8080:8080"
 
   message-service:
     build: ./messageService
@@ -34,6 +57,7 @@ services:
     depends_on:
       - redis
       - placement
+      - postgres
 
   message-service-dapr:
     image: "daprio/dapr:edge"
@@ -70,6 +94,8 @@ services:
     depends_on:
       - redis
       - placement
+      - postgres
+
 
   user-service-dapr:
     image: "daprio/dapr:edge"
@@ -95,7 +121,7 @@ networks:
   platform:
 
 volumes:
-  mysql-data:
+  postgresql-data:
   nodemodules: {}
 
 #  database:
@@ -113,16 +139,6 @@ volumes:
 #       MYSQL_ROOT_PASSWORD: "admin"
 #       MYSQL_PASSWORD: "admin"
 #       MYSQL_DATABASE: "test"
-
-#   admin:
-#     image: adminer
-#     restart: always
-#     networks:
-#       - platform
-#     ports:      
-#       - "8080:8080"
-#     depends_on:
-#       - database
 
   # zookeeper:
   #   image: wurstmeister/zookeeper

@@ -1,14 +1,14 @@
 import 'dotenv/config'
 import 'reflect-metadata';
 import express from 'express';
-import bodyParser from 'body-parser';
-import helmet from 'helmet';
-import cors from 'cors';
-import routes from './routes/index';
-import morganMiddleware from './middleware/morganMiddelware';
-import cookieSession from "cookie-session";
-import DataSource, { kafka } from './dataSource';
-import Logger from './logger/logger';
+// import bodyParser from 'body-parser';
+// import helmet from 'helmet';
+// import cors from 'cors';
+// import routes from './routes/index';
+// import morganMiddleware from './middleware/morganMiddelware';
+// import cookieSession from "cookie-session";
+// import DataSource, { kafka } from './dataSource';
+// import Logger from './logger/logger';
 import { CommunicationProtocolEnum, DaprClient, DaprServer } from 'dapr-client';
 
 const corsOptions = {
@@ -27,23 +27,23 @@ const corsOptions = {
 //     })
 
 const app = express()
-app.use(
-    cookieSession({
-        name: "session",
-        maxAge: 24 * 60 * 60 * 1000,
-        keys: [process.env.COOKIE_SESSIONS_KEY],
-    })
-);
+// app.use(
+//     cookieSession({
+//         name: "session",
+//         maxAge: 24 * 60 * 60 * 1000,
+//         keys: [process.env.COOKIE_SESSIONS_KEY],
+//     })
+// );
 
-app.use(morganMiddleware);
-app.use(cors(corsOptions));
-app.use(helmet());
-app.use(bodyParser.json({
-    verify: (req, res, buf) => {
-        req.rawBody = buf
-    }
-}));
-app.use('/api/v1', routes);
+// app.use(morganMiddleware);
+// app.use(cors(corsOptions));
+// app.use(helmet());
+// app.use(bodyParser.json({
+//     verify: (req, res, buf) => {
+//         req.rawBody = buf
+//     }
+// }));
+// app.use('/api/v1', routes);
 
 // start express server
 app.listen(3002);
@@ -63,23 +63,19 @@ async function start() {
     // Initialize the server to subscribe (listen)
     await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: Record<string, any>) => {
         // The library parses JSON when possible.
-        console.log(`[Dapr-JS][message service] Received on subscription: ${JSON.stringify(data)}`)
+        console.log(`[Dapr-JS][message service] Received on subscription: ${(data)}`)
     });
-
+    
     await server.start();
     console.log("test3");
 
     // Send a message
     // await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "world" });
     console.log("test4");
-    var result = await client.state.get("statestore", "order_4");
+    var result = await client.state.get("postgres", "order_4");
     console.log("Result after get: " + result);
     // app.use('/dapr', async () => await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "This is by api" }));
     // await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: any) => console.log(`Received: ${JSON.stringify(data)}`));
-}
-
-function sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 start().catch((e) => {
