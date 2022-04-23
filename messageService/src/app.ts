@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import 'reflect-metadata';
-import express from 'express';
+import express, { json } from 'express';
 // import bodyParser from 'body-parser';
 // import helmet from 'helmet';
 // import cors from 'cors';
@@ -65,15 +65,16 @@ async function start() {
         // The library parses JSON when possible.
         console.log(`[Dapr-JS][message service] Received on subscription: ${(data)}`)
     });
-    
+
     await server.start();
     console.log("test3");
 
     // Send a message
     // await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "world" });
     console.log("test4");
-    var result = await client.state.get("postgres", "order_4");
-    console.log("Result after get: " + result);
+    var result = await client.state.get("postgres", "order_3");
+    console.table(result);
+    console.log("Result after get: " + JSON.stringify(result));
     // app.use('/dapr', async () => await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "This is by api" }));
     // await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: any) => console.log(`Received: ${JSON.stringify(data)}`));
 }
