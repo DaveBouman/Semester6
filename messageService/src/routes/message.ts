@@ -7,7 +7,5 @@ const messageController = new MessageController();
 
 router.post("/", messageController.create);
 router.get("/", messageController.getList);
-router.get("/test", messageController.getTest);
-router.get("/testauth", [validateUser], messageController.getTest);
 
 export default router;

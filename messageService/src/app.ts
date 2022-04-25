@@ -26,7 +26,8 @@ DataSource
         Logger.error("Error during Data Source initialization:", err)
     })
 
-const app = express()
+const app = express();
+
 app.use(
     cookieSession({
         name: "session",
@@ -48,38 +49,38 @@ app.use('/api/v1/messages', routes);
 // start express server
 app.listen(3002);
 
-async function start() {
-    const daprHost = 'localhost';
-    const daprPort = '53002';
-    const serverHost = 'localhost';
-    const serverPort = '3003';
-    console.log("test");
+// async function start() {
+//     const daprHost = 'localhost';
+//     const daprPort = '53002';
+//     const serverHost = 'localhost';
+//     const serverPort = '3003';
+//     console.log("test");
 
 
-    const server = new DaprServer(serverHost, serverPort, daprHost, daprPort, CommunicationProtocolEnum.HTTP);
-    const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP);
-    console.log("test2");
+//     const server = new DaprServer(serverHost, serverPort, daprHost, daprPort, CommunicationProtocolEnum.HTTP);
+//     const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP);
+//     console.log("test2");
 
-    // Initialize the server to subscribe (listen)
-    await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: Record<string, any>) => {
-        // The library parses JSON when possible.
-        console.log(`[Dapr-JS][message service] Received on subscription: ${(data)}`)
-    });
+//     // Initialize the server to subscribe (listen)
+//     await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: Record<string, any>) => {
+//         // The library parses JSON when possible.
+//         console.log(`[Dapr-JS][message service] Received on subscription: ${(data)}`)
+//     });
 
-    await server.start();
-    console.log("test3");
+//     await server.start();
+//     console.log("test3");
 
-    // Send a message
-    // await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "world" });
-    console.log("test4");
-    var result = await client.state.get("postgres", "order_3");
-    console.table(result);
-    console.log("Result after get: " + JSON.stringify(result));
-    // app.use('/dapr', async () => await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "This is by api" }));
-    // await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: any) => console.log(`Received: ${JSON.stringify(data)}`));
-}
+//     // Send a message
+//     // await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "world" });
+//     console.log("test4");
+//     var result = await client.state.get("postgres", "order_3");
+//     console.table(result);
+//     console.log("Result after get: " + JSON.stringify(result));
+//     // app.use('/dapr', async () => await client.pubsub.publish("my-pubsub-component", "my-topic", { hello: "This is by api" }));
+//     // await server.pubsub.subscribe("my-pubsub-component", "my-topic", async (data: any) => console.log(`Received: ${JSON.stringify(data)}`));
+// }
 
-start().catch((e) => {
-    console.error(e);
-    process.exit(1);
-});
+// start().catch((e) => {
+//     console.error(e);
+//     process.exit(1);
+// });

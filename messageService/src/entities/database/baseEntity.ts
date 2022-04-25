@@ -19,10 +19,16 @@ export abstract class BaseEntity extends Base {
     @Generated("uuid")
     uuid!: string;
 
-    @Column({ nullable: true })
+    @Column({
+        nullable: true,
+        default: new Date()
+    })
     createdOn!: Date;
 
-    @Column({ nullable: true })
+    @Column({
+        nullable: true,
+        default: new Date()
+    })
     updatedOn!: Date;
 
     @Column({ default: 1 })
