@@ -43,7 +43,7 @@ app.use(bodyParser.json({
         req.rawBody = buf
     }
 }));
-app.use('/api/v1', routes);
+app.use('/api/v1/messages', routes);
 
 // start express server
 app.listen(3002);

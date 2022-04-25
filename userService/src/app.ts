@@ -46,7 +46,7 @@ app.use(bodyParser.json({
         req.rawBody = buf
     }
 }));
-app.use('/api/v1', routes);
+app.use('/api/v1/users', routes);
 
 app.use("/dapr", () => console.log("this is a test"));
 //start express server
