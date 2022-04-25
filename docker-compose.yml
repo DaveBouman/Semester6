@@ -111,7 +111,6 @@ services:
       - placement
       - postgres
 
-
   user-service-dapr:
     image: "daprio/dapr:edge"
     container_name: user-service-dapr

@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { kafka } from '../dataSource';
 import User from '../entities/database/user';
 import UserService from '../services/userService';
 
@@ -18,6 +17,15 @@ class UserController {
         });
     }
 
+    async test(req: Request, res: Response) {
+
+        return res.send({
+            message: 'successful',
+            entity: 'test user'
+        });
+    }
+
+
     async getOneByEmail(req: Request, res: Response) {
         const email = req.body.email;
 
@@ -35,26 +43,6 @@ class UserController {
         return res.send({
             message: 'succesful',
             entity: entities
-        });
-    }
-
-    async createTopic(req: Request, res: Response) {
-        const producer = kafka.producer()
-        const topic = req.body.topic;
-        const value = req.body.value;
-
-        await producer.connect()
-        await producer.send({
-            topic: topic,
-            messages: [
-                { value: JSON.stringify(value) },
-            ],
-        })
-        console.log("it goes here");
-        await producer.disconnect()
-
-        return res.send({
-            message: 'succesful',
         });
     }
 
