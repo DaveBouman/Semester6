@@ -3,7 +3,7 @@ import dataSource from "../dataSource";
 
 interface Base {
     id: any,
-    uuid: any 
+    uuid: any
 }
 
 export class BaseRepository<T> {
@@ -33,6 +33,7 @@ export class BaseRepository<T> {
     }
 
     async create(entity: DeepPartial<T>) {
+        console.log("does it come here");
         return await this.repository.create(entity);
     }
 
