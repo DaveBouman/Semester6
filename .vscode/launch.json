@@ -17,9 +17,9 @@
         "${workspaceFolder}/**",
         "!**/node_modules/**"
       ],
-      "sourceMapPathOverrides": {
-        "/src/*": "${workspaceRoot}/*"
-      },
+      // "sourceMapPathOverrides": {
+      //   "/src/*": "${workspaceRoot}/*"
+      // },
       "remoteRoot": "/src"
     }
   ]
