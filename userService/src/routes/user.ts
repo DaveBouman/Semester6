@@ -2,8 +2,8 @@ import { Router } from 'express';
 import UserController from '../controllers/userController';
 
 const router = Router();
-const todoController = new UserController();
+const userController = new UserController();
 
-router.get("/event", todoController.createTopic);
+router.get("/test", userController.test)
 
 export default router;
