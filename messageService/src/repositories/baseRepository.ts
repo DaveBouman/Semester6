@@ -1,10 +1,5 @@
-import { Repository, EntityTarget, DeepPartial } from "typeorm";
+import { Repository, EntityTarget, DeepPartial, FindOptionsWhere } from "typeorm";
 import dataSource from "../dataSource";
-
-interface Base {
-    id: any,
-    uuid: any
-}
 
 export class BaseRepository<T> {
     repository: Repository<T>;
@@ -13,16 +8,12 @@ export class BaseRepository<T> {
         this.repository = dataSource.getRepository(repository);
     }
 
-    async getOneById(id: number) {
-        return await this.repository.findOneBy({
-            id: id,
-        })
+    async getOneById(id: FindOptionsWhere<T>) {
+        return await this.repository.findOneBy(id)
     }
 
-    async getOneByUUID(uuid: string) {
-        return await this.repository.findOneBy({
-            uuid: uuid,
-        })
+    async getOneByUUID(uuid: FindOptionsWhere<T>) {
+        return await this.repository.findBy(uuid)
     }
 
     async getList(skip: number, take: number) {
