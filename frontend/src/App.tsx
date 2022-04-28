@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import Appbar from "./appbar";
 import { Button } from "@mui/material";
 import Drawer from "./drawer";
 import Grid from "./grid";
