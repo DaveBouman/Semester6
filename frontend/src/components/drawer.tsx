@@ -138,7 +138,7 @@ const MiniDrawer = (props: { children: React.ReactChild | undefined }) => {
           </DrawerHeader>
           <Divider />
           <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+            {["Inbox", "Starred", "Send", "Drafts"].map((text, index) => (
               <ListItemButton
                 key={text}
                 sx={{
@@ -162,7 +162,7 @@ const MiniDrawer = (props: { children: React.ReactChild | undefined }) => {
           </List>
           <Divider />
           <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
+            {["All Kweets", "Trash", "Spam"].map((text, index) => (
               <ListItemButton
                 key={text}
                 sx={{
