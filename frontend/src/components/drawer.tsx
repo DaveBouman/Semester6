@@ -90,7 +90,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const MiniDrawer = (props: { children: React.ReactChild | undefined }) => {
+const MiniDrawer = (props: { children: React.ReactChild[] | React.ReactChild | undefined }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 

@@ -1,16 +1,26 @@
-import React from "react";
-import logo from "./logo.svg";
+import { Home } from "@mui/icons-material";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  BrowserRouter,
+  Routes
+} from "react-router-dom";
 import "./App.css";
-import { Button } from "@mui/material";
 import Drawer from "./components/drawer";
-import Grid from "./components/grid";
 
 function App() {
   return (
     <div className="App">
       <Drawer>
-        <Grid />
+      <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<div>test  </div>} />
+      <Route path="/henk" element={<div>tester  </div>} />
+    </Routes>
+  </BrowserRouter>
       </Drawer>
+
     </div>
   );
 }
