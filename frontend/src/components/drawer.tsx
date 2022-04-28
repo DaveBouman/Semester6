@@ -146,6 +146,7 @@ const MiniDrawer = (props: { children: React.ReactChild[] | React.ReactChild | u
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
                 }}
+                onClick={() => alert(text)}
               >
                 <ListItemIcon
                   sx={{

@@ -15,12 +15,11 @@ function App() {
       <Drawer>
       <BrowserRouter>
     <Routes>
-      <Route path="/" element={<div>test  </div>} />
-      <Route path="/henk" element={<div>tester  </div>} />
+      <Route path="/" element={<div>test </div>} />
+      <Route path="/henk" element={<div>henk </div>} />
     </Routes>
   </BrowserRouter>
       </Drawer>
-
     </div>
   );
 }
