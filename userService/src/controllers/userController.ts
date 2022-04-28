@@ -17,6 +17,15 @@ class UserController {
         });
     }
 
+    async test(req: Request, res: Response) {
+
+        return res.send({
+            message: 'successful',
+            entity: 'test user'
+        });
+    }
+
+
     async getOneByEmail(req: Request, res: Response) {
         const email = req.body.email;
 

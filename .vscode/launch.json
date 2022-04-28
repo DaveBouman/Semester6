@@ -9,17 +9,18 @@
       "request": "attach",
       "name": "Docker: Attach to Node",
       "port": 9229,
-      "address": "localhost",
-      "localRoot": "${workspaceFolder}",
       "sourceMaps": true,
+      "restart": true,
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}/MessageService/",
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",
         "!**/node_modules/**"
       ],
-      "sourceMapPathOverrides": {
-        "/src/*": "${workspaceRoot}/*"
-      },
-      "remoteRoot": "/src/"
+      // "sourceMapPathOverrides": {
+      //   "/src/*": "${workspaceRoot}/*"
+      // },
+      "remoteRoot": "/src"
     }
   ]
 }

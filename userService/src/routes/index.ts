@@ -5,13 +5,15 @@ import Facebook from './facebook';
 import MagicLogin from './magicLogin';
 import Stripe from './stripe';
 import Todo from './todo';
+import User from './user';
 
 const routes = Router();
 
-routes.use('/api/google', Google);
-routes.use('/todos', use(Todo));
-routes.use('/api/facebook', Facebook);
-routes.use('/api/auth', MagicLogin);
-routes.use('/api/stripe', Stripe);
+routes.use('/google', Google);
+routes.use('/todos', Todo);
+routes.use('/facebook', use(Facebook));
+routes.use('/auth', MagicLogin);
+routes.use('/stripe', Stripe);
+routes.use('/users', User);
 
 export default routes;
