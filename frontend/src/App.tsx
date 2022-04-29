@@ -4,7 +4,7 @@ import {
   Route,
   Link,
   BrowserRouter,
-  Routes
+  Routes,
 } from "react-router-dom";
 import "./App.css";
 import Drawer from "./components/drawer";
@@ -13,14 +13,13 @@ function App() {
   return (
     <div className="App">
       <Drawer>
-      <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<div>test  </div>} />
-      <Route path="/henk" element={<div>tester  </div>} />
-    </Routes>
-  </BrowserRouter>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<div>test </div>} />
+            <Route path="/henk" element={<div>tester </div>} />
+          </Routes>
+        </BrowserRouter>
       </Drawer>
-
     </div>
   );
 }
