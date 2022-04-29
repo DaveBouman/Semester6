@@ -20,20 +20,12 @@ class MessageController extends BaseController<Message> {
         });
     };
 
-    /*
-    example function on how to override from base implementation
-    */
-
-    // override getOneById = async (req: Request, res: Response) => {
-    //     const id = req.params.id as unknown as number;
-
-    //     const entity = await this.todoService.getOneByUUID(id);
-
-    //     return res.send({
-    //         message: 'successful',
-    //         entity: entity
-    //     });
-    // }
+    test = async (req: Request, res: Response) => {
+        return res.send({
+            message: "successful",
+            entity: 'this is atest',
+        });
+    };
 }
 
 export default MessageController

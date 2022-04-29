@@ -26,24 +26,29 @@ class UserController {
     }
 
 
-    async getOneByEmail(req: Request, res: Response) {
-        const email = req.body.email;
+    // async getOneByEmail(req: Request, res: Response) {
+    //     const email = req.body.email;
 
-        const entity = this.userService.getOneByEmail(email);
+    //     const entity = this.userService.getOneByEmail(email);
 
-        return res.send({
-            message: 'successful',
-            entity: entity
-        });
-    }
+    //     return res.send({
+    //         message: 'successful',
+    //         entity: entity
+    //     });
+    // }
 
-    async getList(req: Request, res: Response) {
-        const entities = this.userService.getList();
+    // async getList(req: Request, res: Response) {
+    //     const entities = this.userService.getList();
 
-        return res.send({
-            message: 'succesful',
-            entity: entities
-        });
+    //     return res.send({
+    //         message: 'succesful',
+    //         entity: entities
+    //     });
+    // }
+
+    async auth(req: Request, res: Response): Promise<any> {
+        console.log("tes");
+        return res.sendStatus(200);
     }
 
     async create(req: Request, res: Response): Promise<any> {

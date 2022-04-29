@@ -7,5 +7,6 @@ const messageController = new MessageController();
 
 router.post("/", messageController.create);
 router.get("/", messageController.getList);
+router.get("/test", messageController.test);
 
 export default router;
