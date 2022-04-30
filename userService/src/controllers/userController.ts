@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../entities/database/user';
+import Logger from '../logger/logger';
 import UserService from '../services/userService';
 
 class UserController {
@@ -47,7 +48,16 @@ class UserController {
     // }
 
     async auth(req: Request, res: Response): Promise<any> {
-        return res.sendStatus(200);
+        try {
+            if (req.user) {
+                Logger.info('succesfull authentication', req.user)
+                res.status(201).send("authenticatied")
+            }
+            res.status(404).send("not authentication")
+        } catch (error) {
+            Logger.error(error);
+            res.status(404).send("unsuccesfull authentication")
+        }
     }
 
     async create(req: Request, res: Response): Promise<any> {

@@ -34,7 +34,7 @@ class GoogleController {
                 message: 'succesfull',
                 user: req.user,
                 cookies: req.cookies
-            })
+            }).redirect('http://localhost:3000')
         }
     };
 }
