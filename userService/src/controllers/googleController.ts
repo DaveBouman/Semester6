@@ -3,32 +3,31 @@ import passport from "passport"
 
 class GoogleController {
 
-    authenticate = async () => {
-        passport.authenticate("google", {
-            scope: ["email", "profile"],
-        })
-    }
+    authenticate = (passport.authenticate('google',
+        {
+            scope: ['profile', 'email']
+        }));
 
-    logout = async (req: Request, res: Response) => {
+    logout = (req: Request, res: Response) => {
+        console.log('5')
+
         req.logOut();
         res.redirect(`${process.env.DOMAIN}`);
-    }
+    };
 
-    callback = async () => {
-        passport.authenticate("google", {
-            successRedirect: `${process.env.DOMAIN}`,
-            failureRedirect: '/api/google/auth/failed'
-        })
-    }
+    callback = (passport.authenticate("google", {
+        successRedirect: `${process.env.DOMAIN}`,
+        failureRedirect: 'api/v1/users/login/failed'
+    }));
 
-    authFailed = async (res: Response) => {
+    authFailed = (res: Response) => {
         res.status(401).json({
             success: false,
             message: 'failure'
         })
-    }
+    };
 
-    authSucces = async (req: Request, res: Response) => {
+    authSucces = (req: Request, res: Response) => {
         if (req.user) {
             res.status(200).json({
                 success: true,
@@ -37,7 +36,7 @@ class GoogleController {
                 cookies: req.cookies
             })
         }
-    }
+    };
 }
 
 export default GoogleController

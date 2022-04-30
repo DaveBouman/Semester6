@@ -90,7 +90,13 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const MiniDrawer = (props: { children: React.ReactChild[] | React.ReactChild | undefined }) => {
+const googleLogin = () => {
+  window.open("http://www.localhost:3001/api/v1/users/google/auth", "_self");
+};
+
+const MiniDrawer = (props: {
+  children: React.ReactChild[] | React.ReactChild | undefined;
+}) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -121,9 +127,11 @@ const MiniDrawer = (props: { children: React.ReactChild[] | React.ReactChild | u
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" sx={{ flexGrow: 1 }} component="div">
-              Mini variant drawer
+              Drawer
             </Typography>
-            <Button color="inherit">Login</Button>
+            <Button color="inherit" onClick={googleLogin}>
+              Login
+            </Button>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

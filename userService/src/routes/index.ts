@@ -11,9 +11,9 @@ const routes = Router();
 
 routes.use('/google', Google);
 routes.use('/todos', Todo);
-routes.use('/facebook', use(Facebook));
-routes.use('/auth', MagicLogin);
-routes.use('/stripe', Stripe);
+// routes.use('/facebook', use(Facebook));
+// routes.use('/auth', MagicLogin);
+// routes.use('/stripe', Stripe);
 routes.use('/users', User);
 
 export default routes;

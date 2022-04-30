@@ -47,7 +47,6 @@ class UserController {
     // }
 
     async auth(req: Request, res: Response): Promise<any> {
-        console.log("tes");
         return res.sendStatus(200);
     }
 
