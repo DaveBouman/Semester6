@@ -10,7 +10,6 @@ passport.use(new GoogleStrategy(
         callbackURL: "http://localhost:3001/api/v1/users/google/auth/callback",
     },
     function (accessToken: string, refreshToken: string, profile: passportGoogle.Profile, done: any) {
-        console.log('test asdl');
         done(null, profile);
     }
 ));

@@ -19,7 +19,6 @@ class UserController {
     }
 
     async test(req: Request, res: Response) {
-
         return res.send({
             message: 'successful',
             entity: 'test user'
