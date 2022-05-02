@@ -10,7 +10,10 @@ class MessageController extends BaseController<Message> {
     }
 
     override create = async (req: Request, res: Response) => {
-        const entity = await req.body;
+        const entity = new Message();
+        entity.content = req.body.content;
+        const test = req.user;
+
         const response = await this.messageService.create(entity);
 
         return res.send({

@@ -1,14 +1,9 @@
+import React, { useContext } from "react";
 import { Card, CardContent, Stack, TextField, Button } from "@mui/material";
 import { fetchRequest } from "../utils/fetchRequest";
+import { UserContext } from "./context/userContext";
 
-const KweetForm = () => {
-  // const postMessage = () => {
-  //   fetchRequest("http://localhost/api/v1/messages/messages", "POST", {
-  //     name: "This is the name",
-  //     content: "first kweet",
-  //     userId: "sss",
-  //   });
-
+const KweetForm: React.FC = () => {
   const postMessage = () => {
     fetch("http://localhost/api/v1/messages/messages", {
       method: "POST",
@@ -21,7 +16,6 @@ const KweetForm = () => {
       body: JSON.stringify({
         name: "test",
         content: "test",
-        userId: "test",
       }),
     });
   };

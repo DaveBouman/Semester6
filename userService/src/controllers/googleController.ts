@@ -12,11 +12,11 @@ class GoogleController {
         console.log('5')
 
         req.logOut();
-        res.redirect(`${process.env.DOMAIN}`);
+        res.redirect('http://localhost:3000');
     };
 
     callback = (passport.authenticate("google", {
-        successRedirect: `${process.env.DOMAIN}`,
+        successRedirect: 'http://localhost:3000',
         failureRedirect: 'api/v1/users/login/failed'
     }));
 
