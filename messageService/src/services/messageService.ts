@@ -12,7 +12,6 @@ class MessageService extends BaseService<Message> {
     }
 
     override async create(entity: Message) {
-
         return await this.messageRepository.save(entity);
     }
 }

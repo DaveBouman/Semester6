@@ -8,7 +8,7 @@ export default class User {
     id!: string;
 
     @Column({ nullable: true })
-    socialId!: string;
+    providerKey!: string;
 
     @Column({ nullable: true })
     name!: string;
@@ -27,10 +27,4 @@ export default class User {
 
     @Column({ nullable: true })
     password!: string;
-
-    @OneToMany(() => BaseEntity, base => base.createdBy)
-    createdBy!: BaseEntity[];
-
-    @OneToMany(() => BaseEntity, base => base.updatedBy)
-    updatedBy!: BaseEntity[];
 }

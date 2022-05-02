@@ -12,7 +12,7 @@
       "sourceMaps": true,
       "restart": true,
       "address": "localhost",
-      "localRoot": "${workspaceFolder}/userService/",
+      "localRoot": "${workspaceFolder}/messageService/",
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",
         "!**/node_modules/**"

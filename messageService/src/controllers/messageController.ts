@@ -11,7 +11,6 @@ class MessageController extends BaseController<Message> {
 
     override create = async (req: Request, res: Response) => {
         const entity = req.body as unknown as Message;
-
         const response = await this.messageService.create(entity);
 
         return res.send({

@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { UserContext } from "./components/context/userContext";
 import Drawer from "./components/drawer";
+import KweetForm from "./components/KweetForm";
 
 function App() {
   const userContext = useContext(UserContext);
@@ -25,7 +26,16 @@ function App() {
     <div className="App">
       <Drawer>
         <div>{userContext?.name?.givenName}</div>
-        <Button onClick={fetchcall}>hello</Button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            width: "100%",
+          }}
+        >
+          <Button onClick={fetchcall}>hello</Button>
+          <KweetForm />
+        </div>
       </Drawer>
       <Routes>
         <Route path="/" element={<div>test </div>} />

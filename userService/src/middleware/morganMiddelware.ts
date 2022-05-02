@@ -3,7 +3,7 @@ import Logger from "../logger/logger";
 
 const stream: StreamOptions = {
   // Use the http severity
-  write: (message) => Logger.http(message),
+  write: (message: any) => Logger.http(message),
 };
 
 const skip = () => {

@@ -19,7 +19,7 @@ export abstract class BaseEntity extends Base {
     @Generated("uuid")
     uuid!: string;
 
-    @Column()
+    @Column({ nullable: true })
     userId!: string;
 
     @Column({
