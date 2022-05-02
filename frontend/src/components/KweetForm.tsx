@@ -2,11 +2,27 @@ import { Card, CardContent, Stack, TextField, Button } from "@mui/material";
 import { fetchRequest } from "../utils/fetchRequest";
 
 const KweetForm = () => {
+  // const postMessage = () => {
+  //   fetchRequest("http://localhost/api/v1/messages/messages", "POST", {
+  //     name: "This is the name",
+  //     content: "first kweet",
+  //     userId: "sss",
+  //   });
+
   const postMessage = () => {
-    fetchRequest("http://localhost/api/v1/messages/messages", "POST", {
-      name: "This is the name",
-      content: "first kweet",
-      userId: "sss",
+    fetch("http://localhost/api/v1/messages/messages", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": "true",
+      },
+      body: JSON.stringify({
+        name: "test",
+        content: "test",
+        userId: "test",
+      }),
     });
   };
 

@@ -10,7 +10,11 @@ export const fetchRequest = async (
     cache: "no-cache",
     credentials: "same-origin",
     headers: headers,
-    body: JSON.stringify({ data }),
+    body: JSON.stringify({
+      name: "test",
+      content: "test",
+      userId: "test",
+    }),
   });
 
   if (response.ok || response.status === 201) {
