@@ -17,6 +17,10 @@ class UserService extends BaseService<User> {
         return entity;
     }
 
+    getUser = async () => {
+
+    }
+
     /*
     example function on how to override from base implementation
     */

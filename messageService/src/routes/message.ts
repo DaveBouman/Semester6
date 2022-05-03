@@ -5,7 +5,7 @@ import { validateUser } from '../middleware/authMiddelware';
 const router = Router();
 const messageController = new MessageController();
 
-router.post("/", [validateUser], messageController.create);
+router.post("/", messageController.create);
 router.get("/", messageController.getList);
 router.get("/test", messageController.test);
 

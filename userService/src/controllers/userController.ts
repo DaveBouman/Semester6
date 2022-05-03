@@ -25,7 +25,6 @@ class UserController {
         });
     }
 
-
     // async getOneByEmail(req: Request, res: Response) {
     //     const email = req.body.email;
 
@@ -48,11 +47,12 @@ class UserController {
 
     async auth(req: Request, res: Response): Promise<any> {
         try {
+            console.log(req.user);
             if (req.user) {
                 Logger.info('succesfull authentication', req.user)
                 res.status(201).send("authenticatied")
             }
-            res.status(404).send("not authentication")
+            res.status(403).send("not authentication")
         } catch (error) {
             Logger.error(error);
             res.status(404).send("unsuccesfull authentication")

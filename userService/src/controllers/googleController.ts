@@ -12,7 +12,7 @@ class GoogleController {
         console.log('5')
 
         req.logOut();
-        res.redirect('http://localhost:3000');
+        res.redirect(`http://localhost:3000`);
     };
 
     callback = (passport.authenticate("google", {
