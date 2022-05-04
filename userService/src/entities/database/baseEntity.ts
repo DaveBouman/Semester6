@@ -31,12 +31,6 @@ export abstract class BaseEntity extends Base {
     @Column({ default: 1 })
     version!: number;
 
-    @ManyToOne(() => User, user => user.createdBy)
-    createdBy!: User;
-
-    @ManyToOne(() => User, user => user.updatedBy)
-    updatedBy!: User;
-
     @BeforeInsert()
     insertDate() {
         this.updatedOn = new Date();
