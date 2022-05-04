@@ -23,6 +23,7 @@
     "react-xarrows": "^2.0.2",
     "styled-components": "^5.3.5",
     "typescript": "^4.6.3",
+    "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

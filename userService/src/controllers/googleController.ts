@@ -9,8 +9,6 @@ class GoogleController {
         }));
 
     logout = (req: Request, res: Response) => {
-        console.log('5')
-
         req.logOut();
         res.redirect(`http://localhost:3000`);
     };

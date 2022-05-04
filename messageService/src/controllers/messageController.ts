@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Message } from '../entities/database/message';
 import MessageService from '../services/messageService';
 import BaseController from './baseController';
+import jwt_decode from "jwt-decode";
 
 class MessageController extends BaseController<Message> {
 
@@ -10,9 +11,12 @@ class MessageController extends BaseController<Message> {
     }
 
     override create = async (req: Request, res: Response) => {
+        const jwt = `${req.cookies['session.sig']}.${req.cookies["session"]}`;
+        const decoded = jwt_decode(jwt);
+
         const entity = new Message();
         entity.content = req.body.content;
-        const test = req.user;
+        entity.userId = decoded.passport.user.id;
 
         const response = await this.messageService.create(entity);
 

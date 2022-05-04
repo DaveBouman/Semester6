@@ -21,6 +21,10 @@ class UserService extends BaseService<User> {
 
     }
 
+    decodeJWT = async () => {
+
+    }
+
     /*
     example function on how to override from base implementation
     */

@@ -36,6 +36,7 @@
     "@types/stripe-v3": "^3.1.26",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
+    "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "dapr-client": "^2.1.0",

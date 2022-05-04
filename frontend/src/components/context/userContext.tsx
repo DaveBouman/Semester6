@@ -19,7 +19,7 @@ const UserProvider = (props: {
 
   useEffect(() => {
     const getUser = () => {
-      fetch("http://localhost:3001/api/v1/users/google/auth/success", {
+      fetch("http://localhost/api/v1/users/google/auth/success", {
         method: "GET",
         credentials: "include",
         headers: {

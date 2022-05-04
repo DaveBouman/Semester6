@@ -19,7 +19,6 @@ const KweetForm: React.FC = () => {
       }),
     });
   };
-
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -31,6 +30,7 @@ const KweetForm: React.FC = () => {
             rows={4}
           />
         </Stack>
+
         <Button variant="contained" onClick={postMessage}>
           Kweet it!
         </Button>
