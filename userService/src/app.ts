@@ -8,7 +8,7 @@ import routes from './routes/index';
 import morganMiddleware from './middleware/morganMiddelware';
 import cookieSession from "cookie-session";
 import './middleware/passportMiddleware';
-import passport from 'passport';
+import passport, { session } from 'passport';
 import DataSource from './dataSource';
 import Logger from './logger/logger';
 import { CommunicationProtocolEnum, DaprClient, DaprServer } from 'dapr-client';
@@ -32,6 +32,7 @@ DataSource
     })
 
 const app = express()
+app.use(cookieParser());
 app.use(
     cookieSession({
         name: "session",
@@ -39,10 +40,6 @@ app.use(
         keys: [process.env.COOKIE_SESSIONS_KEY],
     })
 );
-
-app.use(cookieParser());
-app.use(passport.initialize());
-app.use(passport.session());
 // app.use(morganMiddleware);
 app.use(cors(corsOptions));
 app.use(helmet());
@@ -51,6 +48,8 @@ app.use(bodyParser.json({
         req.rawBody = buf
     }
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/api/v1/users', routes);
 
 //start express server

@@ -9,16 +9,21 @@ class GoogleController {
         }));
 
     logout = (req: Request, res: Response) => {
-        console.log("lol");
-        req.session = null;
+        console.log('test');
+        console.log(req.user);
         req.logout();
-        return res.status(300).redirect("http://localhost:3000/");
+        delete req.session;
+        return res.status(301).redirect('http://localhost:3000');
     };
 
     callback = (passport.authenticate("google", {
         successRedirect: 'http://localhost:3000',
         failureRedirect: 'api/v1/users/login/failed'
-    }));
+    },
+        // (req, res) => {
+        //     req.session.user = req.user;
+        // }
+    ));
 
     authFailed = (res: Response) => {
         res.status(401).json({
@@ -28,14 +33,17 @@ class GoogleController {
     };
 
     authSucces = (req: Request, res: Response) => {
+        console.log(req.user);
         if (req.user) {
             return res.status(200).json({
                 success: true,
                 message: 'succesfull',
                 user: req.user,
                 cookies: req.cookies
-            }).redirect('http://localhost:3000/333')
+            })
         }
+
+        return res.status(401).send('not authenticated');
     };
 }
 

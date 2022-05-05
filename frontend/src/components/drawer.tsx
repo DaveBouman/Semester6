@@ -96,9 +96,7 @@ const googleLogin = () => {
 };
 
 const googleLogout = () => {
-  fetch("http://www.localhost/api/v1/users/google/logout", {
-    method: "GET",
-  });
+  window.open("http://localhost/api/v1/users/google/logout", "_self");
 };
 
 const MiniDrawer = (props: {

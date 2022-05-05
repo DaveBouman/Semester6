@@ -47,15 +47,14 @@ class UserController {
 
     async auth(req: Request, res: Response): Promise<any> {
         try {
-            console.log(req.user);
             if (req.user) {
                 Logger.info('succesfull authentication', req.user)
-                res.status(201).send("authenticatied")
+                return res.status(201).send("authenticatied");
             }
-            res.status(403).send("not authentication")
+            return res.status(403).send("not authentication");
         } catch (error) {
             Logger.error(error);
-            res.status(404).send("unsuccesfull authentication")
+            return res.status(404).send("unsuccesfull authentication");
         }
     }
 

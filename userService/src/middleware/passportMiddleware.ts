@@ -24,11 +24,11 @@ passport.use(new GoogleStrategy(
             createUser(profile);
         }
 
-        done(null, profile);
+        await done(null, profile);
     }
 ));
 
-const createUser = (profile: passportGoogle.Profile) => {
+const createUser = async (profile: passportGoogle.Profile) => {
 
     if (profile == undefined || profile.emails == undefined || profile.emails[0].value == undefined) {
         return;
@@ -42,14 +42,14 @@ const createUser = (profile: passportGoogle.Profile) => {
     user.providerKey = profile.id;
     user.social = profile.provider
 
-    userService.save(user);
+    await userService.save(user);
 
 }
 
 passport.serializeUser((user: User, done) => {
-    return done(null, user);
+    done(null, user);
 });
 
 passport.deserializeUser((user: User, done) => {
-    return done(null, user);
+    done(null, user);
 });
