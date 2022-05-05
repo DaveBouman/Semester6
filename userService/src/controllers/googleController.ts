@@ -9,8 +9,10 @@ class GoogleController {
         }));
 
     logout = (req: Request, res: Response) => {
-        req.logOut();
-        res.redirect(`http://localhost:3000`);
+        console.log("lol");
+        req.session = null;
+        req.logout();
+        return res.status(300).redirect("http://localhost:3000/");
     };
 
     callback = (passport.authenticate("google", {
@@ -27,12 +29,12 @@ class GoogleController {
 
     authSucces = (req: Request, res: Response) => {
         if (req.user) {
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: 'succesfull',
                 user: req.user,
                 cookies: req.cookies
-            }).redirect('http://localhost:3000')
+            }).redirect('http://localhost:3000/333')
         }
     };
 }

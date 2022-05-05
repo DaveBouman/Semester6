@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -18,6 +18,7 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { Button } from "@mui/material";
+import { UserContext } from "./context/userContext";
 
 const drawerWidth = 240;
 
@@ -91,7 +92,13 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const googleLogin = () => {
-  window.open("http://www.localhost:3001/api/v1/users/google/auth", "_self");
+  window.open("http://www.localhost/api/v1/users/google/auth", "_self");
+};
+
+const googleLogout = () => {
+  fetch("http://www.localhost/api/v1/users/google/logout", {
+    method: "GET",
+  });
 };
 
 const MiniDrawer = (props: {
@@ -99,6 +106,7 @@ const MiniDrawer = (props: {
 }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const userContext = useContext(UserContext);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -129,9 +137,15 @@ const MiniDrawer = (props: {
             <Typography variant="h6" sx={{ flexGrow: 1 }} component="div">
               Drawer
             </Typography>
-            <Button color="inherit" onClick={googleLogin}>
-              Login
-            </Button>
+            {userContext?.isLoggedIn ? (
+              <Button color="inherit" onClick={googleLogout}>
+                Logout
+              </Button>
+            ) : (
+              <Button color="inherit" onClick={googleLogin}>
+                Login
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

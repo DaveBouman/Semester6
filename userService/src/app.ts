@@ -12,6 +12,8 @@ import passport from 'passport';
 import DataSource from './dataSource';
 import Logger from './logger/logger';
 import { CommunicationProtocolEnum, DaprClient, DaprServer } from 'dapr-client';
+import cookieParser from 'cookie-parser';
+
 
 const corsOptions = {
     origin: '*',
@@ -38,9 +40,10 @@ app.use(
     })
 );
 
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(morganMiddleware);
+// app.use(morganMiddleware);
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(bodyParser.json({
