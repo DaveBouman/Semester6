@@ -26,7 +26,7 @@ const KweetForm: React.FC = () => {
           <TextField
             placeholder="Create Kweet"
             multiline
-            inputProps={{ maxLength: 150 }}
+            inputProps={{ maxLength: 140 }}
             rows={4}
           />
         </Stack>

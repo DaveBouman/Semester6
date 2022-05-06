@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { UserContext } from "./components/context/userContext";
 import Drawer from "./components/drawer";
-import KweetForm from "./components/KweetForm";
+import KweetForm from "./components/kweetForm";
 import Home from "./pages/home";
 
 function App() {
