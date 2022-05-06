@@ -21,6 +21,7 @@ import { Button } from "@mui/material";
 import { UserContext } from "./context/userContext";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "./searchBar";
 
 const drawerWidth = 240;
 
