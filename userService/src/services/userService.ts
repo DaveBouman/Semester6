@@ -17,8 +17,8 @@ class UserService extends BaseService<User> {
         return entity;
     }
 
-    getUser = async () => {
-
+    getUserByName = async (name: string) => {
+        return this.userRepository.getUserByName(name);
     }
 
     decodeJWT = async () => {

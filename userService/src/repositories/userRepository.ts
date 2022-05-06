@@ -12,6 +12,13 @@ class UserRepository extends BaseRepository<User> {
         })
     }
 
+    getUserByName = async (name: string) => {
+        return await this.repository.findOne({
+            where: {
+                name: name
+            }
+        })
+    }
     /*
     example function on how to override from base implementation
     */

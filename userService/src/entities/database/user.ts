@@ -19,6 +19,9 @@ export default class User {
     name!: string;
 
     @Column({ nullable: true })
+    password!: string;
+
+    @Column({ nullable: true })
     familyName!: string;
 
     @Column({ nullable: true })
