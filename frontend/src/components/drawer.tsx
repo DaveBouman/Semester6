@@ -19,6 +19,8 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { Button } from "@mui/material";
 import { UserContext } from "./context/userContext";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -105,6 +107,7 @@ const MiniDrawer = (props: {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const userContext = useContext(UserContext);
+  const navigation = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -133,7 +136,7 @@ const MiniDrawer = (props: {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" sx={{ flexGrow: 1 }} component="div">
-              Drawer
+              {userContext?.name?.givenName}
             </Typography>
             {userContext?.isLoggedIn ? (
               <Button color="inherit" onClick={googleLogout}>
@@ -158,7 +161,7 @@ const MiniDrawer = (props: {
           </DrawerHeader>
           <Divider />
           <List>
-            {["Inbox", "Starred", "Send", "Drafts"].map((text, index) => (
+            {["Inbox", "Starred", "Send"].map((text, index) => (
               <ListItemButton
                 key={text}
                 sx={{
@@ -179,6 +182,26 @@ const MiniDrawer = (props: {
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             ))}
+            <ListItemButton
+              key="profile"
+              onClick={() => navigation("/profile")}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <AccountBoxIcon />
+              </ListItemIcon>
+              <ListItemText primary="profile" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
           </List>
           <Divider />
           <List>

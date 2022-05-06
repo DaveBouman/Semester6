@@ -19,11 +19,7 @@ class GoogleController {
     callback = (passport.authenticate("google", {
         successRedirect: 'http://localhost:3000',
         failureRedirect: 'api/v1/users/login/failed'
-    },
-        // (req, res) => {
-        //     req.session.user = req.user;
-        // }
-    ));
+    }));
 
     authFailed = (res: Response) => {
         res.status(401).json({

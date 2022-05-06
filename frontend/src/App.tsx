@@ -8,39 +8,37 @@ import Drawer from "./components/drawer";
 import KweetForm from "./components/KweetForm";
 
 function App() {
-  const userContext = useContext(UserContext);
-
-  const fetchcall = () => {
-    fetch("http://localhost/api/v1/users/users/test", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials": "true",
-      },
-    });
-  };
-
   return (
     <div className="App">
       <Drawer>
-        <div>{userContext?.name?.givenName}</div>
-        <div
+        {/* <div
           style={{
             display: "flex",
             justifyContent: "space-evenly",
             width: "100%",
           }}
         >
-          <Button onClick={fetchcall}>hello</Button>
           <KweetForm />
-        </div>
+        </div> */}
+        <Routes>
+          <Route
+            path="/create"
+            element={
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  width: "100%",
+                }}
+              >
+                <KweetForm />
+              </div>
+            }
+          />
+          <Route path="/" element={<div>test </div>} />
+          <Route path="/profile" element={<div>sss </div>} />
+        </Routes>
       </Drawer>
-      <Routes>
-        <Route path="/" element={<div>test </div>} />
-        <Route path="/henk" element={<div>tester </div>} />
-      </Routes>
     </div>
   );
 }
