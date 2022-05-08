@@ -8,12 +8,14 @@ import routes from './routes/index';
 import morganMiddleware from './middleware/morganMiddelware';
 import cookieSession from "cookie-session";
 import DataSource from './dataSource';
+import cookieParser from 'cookie-parser';
 import Logger from './logger/logger';
 import { CommunicationProtocolEnum, DaprClient, DaprServer } from 'dapr-client';
 
 const corsOptions = {
     origin: '*',
     methods: "GET, PUT, DELETE, POST",
+    credentials: true,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -36,6 +38,7 @@ app.use(
     })
 );
 
+app.use(cookieParser());
 app.use(morganMiddleware);
 app.use(cors(corsOptions));
 app.use(helmet());

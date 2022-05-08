@@ -17,3 +17,5 @@ export default new DataSource({
     entities: ['src/entities/**/*.ts', 'entities/**/*.js'],
     migrations: ['api/migrations/**/*.ts', 'migrations/**/*.js'],
 });
+
+

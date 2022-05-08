@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import passport from 'passport';
 import GoogleController from '../controllers/googleController';
 
 const router = Router();

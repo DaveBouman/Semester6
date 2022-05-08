@@ -12,8 +12,11 @@ class MessageService extends BaseService<Message> {
     }
 
     override async create(entity: Message) {
-
         return await this.messageRepository.save(entity);
+    }
+
+    getMentions = async (name: string) => {
+        return await this.messageRepository.findMentions(name);
     }
 }
 

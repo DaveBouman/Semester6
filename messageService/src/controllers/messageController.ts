@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Message } from '../entities/database/message';
 import MessageService from '../services/messageService';
 import BaseController from './baseController';
+import jwt_decode from "jwt-decode";
 
 class MessageController extends BaseController<Message> {
 
@@ -10,7 +11,11 @@ class MessageController extends BaseController<Message> {
     }
 
     override create = async (req: Request, res: Response) => {
-        const entity = req.body as unknown as Message;
+        const jwt = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
+
+        const entity = new Message();
+        entity.content = req.body.content;
+        entity.userId = jwt.passport.user.id;
 
         const response = await this.messageService.create(entity);
 
@@ -20,20 +25,30 @@ class MessageController extends BaseController<Message> {
         });
     };
 
-    /*
-    example function on how to override from base implementation
-    */
+    test = async (req: Request, res: Response) => {
+        return res.send({
+            message: "successful",
+            entity: 'this is atest',
+        });
+    };
 
-    // override getOneById = async (req: Request, res: Response) => {
-    //     const id = req.params.id as unknown as number;
+    getMentions = async (req: Request, res: Response) => {
+        const jwt = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
+        const name = `@${req.body.name}`;
 
-    //     const entity = await this.todoService.getOneByUUID(id);
+        if (`@${jwt.passport.user.displayname}` !== name) {
+            return res.send({
+                message: "couldn't retrieve mentions",
+                entity: 'not found'
+            });
+        }
 
-    //     return res.send({
-    //         message: 'successful',
-    //         entity: entity
-    //     });
-    // }
+        const response = await this.messageService.getMentions(name);
+        return res.send({
+            message: "succesful",
+            entity: response
+        });
+    };
 }
 
 export default MessageController

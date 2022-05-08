@@ -3,41 +3,44 @@ import passport from "passport"
 
 class GoogleController {
 
-    authenticate = async () => {
-        passport.authenticate("google", {
-            scope: ["email", "profile"],
-        })
-    }
+    authenticate = (passport.authenticate('google',
+        {
+            scope: ['profile', 'email']
+        }));
 
-    logout = async (req: Request, res: Response) => {
-        req.logOut();
-        res.redirect(`${process.env.DOMAIN}`);
-    }
+    logout = (req: Request, res: Response) => {
+        console.log('test');
+        console.log(req.user);
+        req.logout();
+        delete req.session;
+        return res.status(301).redirect('http://localhost:3000');
+    };
 
-    callback = async () => {
-        passport.authenticate("google", {
-            successRedirect: `${process.env.DOMAIN}`,
-            failureRedirect: '/api/google/auth/failed'
-        })
-    }
+    callback = (passport.authenticate("google", {
+        successRedirect: 'http://localhost:3000',
+        failureRedirect: 'api/v1/users/login/failed'
+    }));
 
-    authFailed = async (res: Response) => {
+    authFailed = (res: Response) => {
         res.status(401).json({
             success: false,
             message: 'failure'
         })
-    }
+    };
 
-    authSucces = async (req: Request, res: Response) => {
+    authSucces = (req: Request, res: Response) => {
+        console.log(req.user);
         if (req.user) {
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: 'succesfull',
                 user: req.user,
                 cookies: req.cookies
             })
         }
-    }
+
+        return res.status(401).send('not authenticated');
+    };
 }
 
 export default GoogleController

@@ -1,6 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { BaseEntity } from './baseEntity';
 
+enum UserRole {
+    ADMIN = "admin",
+    USER = "user"
+}
+
 @Entity()
 export default class User {
 
@@ -8,10 +13,13 @@ export default class User {
     id!: string;
 
     @Column({ nullable: true })
-    socialId!: string;
+    providerKey!: string;
 
     @Column({ nullable: true })
     name!: string;
+
+    @Column({ nullable: true })
+    password!: string;
 
     @Column({ nullable: true })
     familyName!: string;
@@ -25,12 +33,10 @@ export default class User {
     @Column({ nullable: true })
     social!: string;
 
-    @Column({ nullable: true })
-    password!: string;
-
-    @OneToMany(() => BaseEntity, base => base.createdBy)
-    createdBy!: BaseEntity[];
-
-    @OneToMany(() => BaseEntity, base => base.updatedBy)
-    updatedBy!: BaseEntity[];
+    @Column({
+        type: "enum",
+        enum: UserRole,
+        default: UserRole.USER
+    })
+    role!: UserRole;
 }
