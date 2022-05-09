@@ -11,10 +11,11 @@ class MessageController extends BaseController<Message> {
     }
 
     override create = async (req: Request, res: Response) => {
-        const jwt = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
+        const jwt: any = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
 
         const entity = new Message();
         entity.content = req.body.content;
+        entity.name = req.body.name;
         entity.userId = jwt.passport.user.id;
 
         const response = await this.messageService.create(entity);
@@ -33,7 +34,7 @@ class MessageController extends BaseController<Message> {
     };
 
     getMentions = async (req: Request, res: Response) => {
-        const jwt = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
+        const jwt: any = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
         const name = `@${req.body.name}`;
 
         if (`@${jwt.passport.user.displayname}` !== name) {

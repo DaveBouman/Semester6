@@ -31,6 +31,7 @@ const TimeLine = () => {
         throw new Error("authentication failed!");
       })
       .then((resObject) => {
+        console.log(resObject.entity);
         setMessages(resObject.entity);
       })
       .catch((err) => {

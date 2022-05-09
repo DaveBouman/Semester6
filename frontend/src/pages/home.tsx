@@ -5,6 +5,7 @@ import SearchBar from "../components/searchBar";
 import TimeLine from "../components/timeLine";
 import Follow from "../components/follow";
 import Trends from "../components/trends";
+import Entry from "../pages/entry";
 
 const Home = () => {
   return (
@@ -26,6 +27,9 @@ const Home = () => {
       </Grid>
       <Grid container spacing={0} direction="column" alignItems="center">
         <Trends />
+      </Grid>
+      <Grid container spacing={0} direction="column" alignItems="center">
+        <Entry />
       </Grid>
     </>
   );
