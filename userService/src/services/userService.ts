@@ -1,5 +1,3 @@
-import UserConsumer from "../consumers/userConsumer";
-import { kafka } from "../dataSource";
 import User from "../entities/database/user";
 import UserRepository from "../repositories/userRepository";
 import BaseService from "./baseService";
@@ -13,6 +11,19 @@ class UserService extends BaseService<User> {
         // UserConsumer;
     }
 
+    getOneByEmail = async (email: string) => {
+        const entity = this.userRepository.getOneByEmail(email);
+
+        return entity;
+    }
+
+    getUserByName = async (name: string) => {
+        return this.userRepository.getUserByName(name);
+    }
+
+    decodeJWT = async () => {
+
+    }
 
     /*
     example function on how to override from base implementation

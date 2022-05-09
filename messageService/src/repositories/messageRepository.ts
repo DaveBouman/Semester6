@@ -1,3 +1,4 @@
+import { Like } from 'typeorm';
 import { Message } from '../entities/database/message';
 import { BaseRepository } from './baseRepository';
 
@@ -14,6 +15,12 @@ class MessageRepository extends BaseRepository<Message> {
     //         }
     //     })
     // }
+
+    findMentions = async (name: string) => {
+        return await this.repository.findBy({
+            content: Like(name)
+        })
+    }
 
 }
 

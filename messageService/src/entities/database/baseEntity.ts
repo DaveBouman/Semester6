@@ -19,6 +19,9 @@ export abstract class BaseEntity extends Base {
     @Generated("uuid")
     uuid!: string;
 
+    @Column({ nullable: true })
+    userId!: string;
+
     @Column({
         nullable: true,
         default: new Date()

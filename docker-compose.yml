@@ -102,6 +102,7 @@ services:
     ports:
       - "50001:50001"
       - "3001:3001"
+      # - "9229:9229"
     networks:
       - platform
     volumes:

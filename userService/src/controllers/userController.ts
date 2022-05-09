@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../entities/database/user';
+import Logger from '../logger/logger';
 import UserService from '../services/userService';
 
 class UserController {
@@ -18,32 +19,43 @@ class UserController {
     }
 
     async test(req: Request, res: Response) {
-
         return res.send({
             message: 'successful',
             entity: 'test user'
         });
     }
 
+    // async getOneByEmail(req: Request, res: Response) {
+    //     const email = req.body.email;
 
-    async getOneByEmail(req: Request, res: Response) {
-        const email = req.body.email;
+    //     const entity = this.userService.getOneByEmail(email);
 
-        const entity = this.userService.getOneByEmail(email);
+    //     return res.send({
+    //         message: 'successful',
+    //         entity: entity
+    //     });
+    // }
 
-        return res.send({
-            message: 'successful',
-            entity: entity
-        });
-    }
+    // async getList(req: Request, res: Response) {
+    //     const entities = this.userService.getList();
 
-    async getList(req: Request, res: Response) {
-        const entities = this.userService.getList();
+    //     return res.send({
+    //         message: 'succesful',
+    //         entity: entities
+    //     });
+    // }
 
-        return res.send({
-            message: 'succesful',
-            entity: entities
-        });
+    async auth(req: Request, res: Response): Promise<any> {
+        try {
+            if (req.user) {
+                Logger.info('succesfull authentication', req.user)
+                return res.status(201).send("authenticatied");
+            }
+            return res.status(403).send("not authentication");
+        } catch (error) {
+            Logger.error(error);
+            return res.status(404).send("unsuccesfull authentication");
+        }
     }
 
     async create(req: Request, res: Response): Promise<any> {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -18,6 +18,10 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { Button } from "@mui/material";
+import { UserContext } from "./context/userContext";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import { useNavigate } from "react-router-dom";
+import SearchBar from "./searchBar";
 
 const drawerWidth = 240;
 
@@ -90,9 +94,21 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const MiniDrawer = (props: { children: React.ReactChild[] | React.ReactChild | undefined }) => {
+const googleLogin = () => {
+  window.open("http://www.localhost/api/v1/users/google/auth", "_self");
+};
+
+const googleLogout = () => {
+  window.open("http://localhost/api/v1/users/google/logout", "_self");
+};
+
+const MiniDrawer = (props: {
+  children: React.ReactChild[] | React.ReactChild | undefined;
+}) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const userContext = useContext(UserContext);
+  const navigation = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -121,9 +137,17 @@ const MiniDrawer = (props: { children: React.ReactChild[] | React.ReactChild | u
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" sx={{ flexGrow: 1 }} component="div">
-              Mini variant drawer
+              {userContext?.name?.givenName}
             </Typography>
-            <Button color="inherit">Login</Button>
+            {userContext?.isLoggedIn ? (
+              <Button color="inherit" onClick={googleLogout}>
+                Logout
+              </Button>
+            ) : (
+              <Button color="inherit" onClick={googleLogin}>
+                Login
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -138,7 +162,7 @@ const MiniDrawer = (props: { children: React.ReactChild[] | React.ReactChild | u
           </DrawerHeader>
           <Divider />
           <List>
-            {["Inbox", "Starred", "Send", "Drafts"].map((text, index) => (
+            {["Inbox", "Starred", "Send"].map((text, index) => (
               <ListItemButton
                 key={text}
                 sx={{
@@ -160,6 +184,26 @@ const MiniDrawer = (props: { children: React.ReactChild[] | React.ReactChild | u
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             ))}
+            <ListItemButton
+              key="profile"
+              onClick={() => navigation("/profile")}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <AccountBoxIcon />
+              </ListItemIcon>
+              <ListItemText primary="profile" sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
           </List>
           <Divider />
           <List>
