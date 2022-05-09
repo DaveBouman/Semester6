@@ -1,9 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Card, CardContent, Stack, TextField, Button } from "@mui/material";
 import { fetchRequest } from "../utils/fetchRequest";
 import { UserContext } from "./context/userContext";
 
 const KweetForm: React.FC = () => {
+  const [content, setContent] = useState<string>();
+
   const postMessage = () => {
     fetch("http://localhost/api/v1/messages/messages", {
       method: "POST",
@@ -15,7 +17,7 @@ const KweetForm: React.FC = () => {
       },
       body: JSON.stringify({
         name: "test",
-        content: "test",
+        content: content,
       }),
     });
   };
@@ -26,11 +28,11 @@ const KweetForm: React.FC = () => {
           <TextField
             placeholder="Create Kweet"
             multiline
+            onChange={e => setContent(e.target.value)}
             inputProps={{ maxLength: 140 }}
             rows={4}
           />
         </Stack>
-
         <Button variant="contained" onClick={postMessage}>
           Kweet it!
         </Button>

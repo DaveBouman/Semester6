@@ -16,7 +16,7 @@ const Home = () => {
         <KweetForm />
       </Grid>
       <Grid container spacing={0} direction="column" alignItems="center">
-        <Mentions />
+        {/* <Mentions /> */}
       </Grid>
       <Grid container spacing={0} direction="column" alignItems="center">
         <TimeLine />
