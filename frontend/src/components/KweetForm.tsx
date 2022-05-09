@@ -5,6 +5,7 @@ import { UserContext } from "./context/userContext";
 
 const KweetForm: React.FC = () => {
   const [content, setContent] = useState<string>();
+  const userContext = useContext(UserContext);
 
   const postMessage = () => {
     fetch("http://localhost/api/v1/messages/messages", {
@@ -16,7 +17,7 @@ const KweetForm: React.FC = () => {
         "Access-Control-Allow-Credentials": "true",
       },
       body: JSON.stringify({
-        name: "test",
+        name: userContext?.name,
         content: content,
       }),
     });
