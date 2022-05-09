@@ -28,10 +28,10 @@ const TimeLine = () => {
 
   return (
     <>
-      {messages?.map((message: Message) => {
+      {/* {messages?.map((message: Message) => {
         <div>{message.content}</div>;
       })}
-      <div>{messages[0].content}</div>
+      <div>{messages[0].content}</div> */}
       <div>test</div>
     </>
   );
