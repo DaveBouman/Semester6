@@ -170,6 +170,7 @@ const MiniDrawer = (props: {
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
                 }}
+                onClick={() => alert(text)}
               >
                 <ListItemIcon
                   sx={{

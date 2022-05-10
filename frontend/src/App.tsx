@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import { UserContext } from "./components/context/userContext";
 import Drawer from "./components/drawer";
-import KweetForm from "./components/kweetForm";
+import Entry from "./pages/entry";
 import Home from "./pages/home";
 
 function App() {
@@ -31,11 +31,12 @@ function App() {
                   width: "100%",
                 }}
               >
-                <KweetForm />
+                {/* <KweetForm /> */}
               </div>
             }
           />
           <Route path="/" element={<Home />} />
+          <Route path="/signin" element={<Entry />} />
           <Route path="/profile" element={<div>sss </div>} />
         </Routes>
       </Drawer>

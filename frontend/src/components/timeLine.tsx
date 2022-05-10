@@ -1,3 +1,15 @@
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ListItemText from "@mui/material/ListItemText";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import FolderIcon from "@mui/icons-material/Folder";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 
 type Message = {
@@ -7,7 +19,7 @@ type Message = {
 };
 
 const TimeLine = () => {
-  const [messages, setMessages] = useState<Message>([] as unknown as Message);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
     fetch("http://localhost/api/v1/messages/messages", {
@@ -19,6 +31,7 @@ const TimeLine = () => {
         throw new Error("authentication failed!");
       })
       .then((resObject) => {
+        console.log(resObject.entity);
         setMessages(resObject.entity);
       })
       .catch((err) => {
@@ -28,11 +41,14 @@ const TimeLine = () => {
 
   return (
     <>
-      {messages?.map((message: Message) => {
-        <div>{message.content}</div>;
+    {/* <div>{messages[1]?.uuid}</div>
+    <div>{messages[1]?.content}</div> */}
+
+      {messages?.slice(0).reverse().map((message: Message, key: number) => {
+        return (
+          <div key={key}>{message.content} - {message.uuid}</div>)
       })}
-      <div>{messages[0].content}</div>
-      <div>test</div>
+
     </>
   );
 };
