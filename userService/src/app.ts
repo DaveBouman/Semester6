@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import 'reflect-metadata';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -51,7 +51,9 @@ app.use(bodyParser.json({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api/v1/users', routes);
-
+app.use("/test", (req: Request, res: Response) => {
+    return res.status(200).send("it works");
+})
 //start express server
 app.listen(3001);
 

@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-app-user-service
+  name: user-service-deployment
   labels:
-    app: node-app
+    app: user-service
 spec:
   replicas: 1
   selector:
