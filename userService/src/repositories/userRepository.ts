@@ -1,3 +1,4 @@
+import { Like } from 'typeorm';
 import User from '../entities/database/user';
 import { BaseRepository } from './baseRepository';
 
@@ -17,6 +18,12 @@ class UserRepository extends BaseRepository<User> {
             where: {
                 name: name
             }
+        })
+    }
+
+    getAllUsersByQuery = async(query: string) => {
+        return await this.repository.find({
+            where: {name: Like(query)}
         })
     }
     /*

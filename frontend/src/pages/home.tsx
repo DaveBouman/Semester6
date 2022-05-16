@@ -29,7 +29,7 @@ const Home = () => {
         <Trends />
       </Grid>
       <Grid container spacing={0} direction="column" alignItems="center">
-        <Entry />
+        {/* <Entry /> */}
       </Grid>
     </>
   );
