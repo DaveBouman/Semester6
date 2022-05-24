@@ -39,7 +39,7 @@ class BaseController<T> {
     return res.send({
       message: "This is succesfull",
       entity: entities,
-    });
+    }).status(200);
   };
 
   create = async (req: Request, res: Response) => {

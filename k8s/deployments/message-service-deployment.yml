@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-service-deployment
+  labels:
+    app: message-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: message-service
+  template:
+    metadata:
+      labels:
+        app: message-service
+    spec:
+      containers:
+        - name: message-service
+          image: davebouman/message-service:1.0
+          ports:
+            - containerPort: 3000

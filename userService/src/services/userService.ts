@@ -21,8 +21,8 @@ class UserService extends BaseService<User> {
         return this.userRepository.getUserByName(name);
     }
 
-    decodeJWT = async () => {
-
+    getAllUsersByQuery = async (name: string) => {
+        return this.userRepository.getAllUsersByQuery(name);
     }
 
     /*
