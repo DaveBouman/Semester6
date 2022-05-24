@@ -1,12 +1,17 @@
-import { Entity, Column } from "typeorm";
-import { BaseEntity } from "./baseEntity";
+import { Entity, Column, PrimaryGeneratedColumn, Generated, BeforeInsert, BeforeUpdate } from "typeorm";
 
 
 @Entity()
-export class Message extends BaseEntity {
-    @Column({ nullable: true })
+export class Message {
+    @Column('char')
     name!: string;
 
-    @Column({ nullable: true })
+    @Column('char')
     content!: string;
+
+    @PrimaryGeneratedColumn({ type: 'bigint' })
+    id!: number;
+
+    @Column('char')
+    userId!: string;
 }
